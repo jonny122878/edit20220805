@@ -18,9 +18,11 @@ namespace edit20210325.Controllers
     public class DownloadController : Controller
     {
         private readonly CASE20210405Context _dbContext;
+        private string _directory;
         public DownloadController()
         {
             this._dbContext = new CASE20210405Context();
+            this._directory = Directory.GetCurrentDirectory() + @"\WinFormPrograms";
         }
         public IActionResult JudgeIndex()
         {
@@ -49,7 +51,7 @@ namespace edit20210325.Controllers
             //byte[] fileBytes = System.IO.File.ReadAllBytes(file);
             //return File(fileBytes, contentType, "result.txt");
 
-            var directory = Directory.GetCurrentDirectory() + @"\Programs";
+            var directory = this._directory;
             //var filename = "Debug.zip";
 
             string file = Path.Combine(directory, filename);
@@ -57,7 +59,7 @@ namespace edit20210325.Controllers
             var provider = new FileExtensionContentTypeProvider();
             provider.TryGetContentType(file, out contentType);
             byte[] fileBytes = System.IO.File.ReadAllBytes(file);
-            return File(fileBytes, contentType, "Setup1.msi");
+            return File(fileBytes, contentType, "topefficienywork.msi");
         }
 
         public IActionResult GetFile()
@@ -83,11 +85,11 @@ namespace edit20210325.Controllers
         {
 
             #region 清除要更新產品資料夾和zip
-            var pathSendZip = Directory.GetCurrentDirectory() + @"\Programs";
+            var pathSendZip = this._directory;
             var filenameSendZip = "SendZip.zip";
             var fileSendZip = Path.Combine(pathSendZip, filenameSendZip);
             System.IO.File.Delete(fileSendZip);
-            var directory = Directory.GetCurrentDirectory() + @"\Programs\SendZip";
+            var directory = pathSendZip + @"\SendZip";
             if (Directory.Exists(directory))
             {
                 Directory.Delete(directory, true);
@@ -95,12 +97,26 @@ namespace edit20210325.Controllers
             Directory.CreateDirectory(directory);
             #endregion
             #region 比對發送本地端將要更新zip檔搬移
-            var sourcePath = Directory.GetCurrentDirectory() + @"\Programs\" + updateVersionViewModel.User;
+            var sourcePath = pathSendZip + @"\" + updateVersionViewModel.User;
             var sourceFiles = Directory.GetFiles(sourcePath).Select(r =>
             {
                 var key = System.IO.Path.GetFileNameWithoutExtension(r);
                 return new KeyValuePair<string, string>(key, r);
             }).ToList();
+            Console.WriteLine("");
+            sourceFiles.Join(updateVersionViewModel.Versions,
+                inner => inner.Key,
+                outer => outer,
+                (inner, outer) => inner.Value).ToList()
+                .ForEach(item =>
+                {
+                    var destFilename = Path.GetFileName(item);
+                    var destFile = Path.Combine(directory, destFilename);
+                    System.IO.File.Copy(item, destFile, true);
+                });
+            #endregion
+            #region 比對發送本地端將要更新zip檔搬移
+
             Console.WriteLine("");
             sourceFiles.Join(updateVersionViewModel.Versions,
                 inner => inner.Key,
@@ -190,14 +206,16 @@ namespace edit20210325.Controllers
                                select new
                                {
                                    OrderID = o.MemberCashInOrderID,
-                                   Name = o.MemberCashInName,
+                                   ExeName = o.MemberCashInName,
+                                   ProductName = o.MemberCashInRemarks,
                                    Version = o.MemberCashInVersion,
                                    IsOver = (l.Value == false && s.Value == false) ? false : true
                                };
             var peroids = queryPeroids.AsEnumerable().Select(r =>
             {
-                return new KeyValuePair<string, Tuple<string, string, bool>>(r.OrderID, new Tuple<string, string, bool>(r.Name, r.Version, r.IsOver));
+                return new KeyValuePair<string, Tuple<string, string, string, bool>>(r.OrderID, new Tuple<string, string, string, bool>(r.ExeName, r.ProductName, r.Version, r.IsOver));
             }).ToList();
+
 
 
 
