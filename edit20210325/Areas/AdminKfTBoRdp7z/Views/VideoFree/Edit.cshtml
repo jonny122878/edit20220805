@@ -1,0 +1,99 @@
+﻿@model edit20210325.Models.VideoFreeModel
+@{
+    var pathName = edit20210325.Function.ProjectSet.AdminName;
+}
+@{
+    ViewData["Title"] = "免費影片編輯";
+    ViewData["ＰageCtrl"] = "3";
+}
+
+<h1>免費影片編輯</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="videoTitle" class="control-label"></label>
+                <input asp-for="videoTitle" class="form-control" />
+                <span asp-validation-for="videoTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="videoIntro" class="control-label"></label>
+                <textarea asp-for="videoIntro" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="videoIntro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="videoId" value="@Model.videoId">
+                <label asp-for="videoUrl" class="control-label"></label>
+                <input asp-for="videoUrl" class="form-control" onchange="ChangeVideoAddress('VideoFile','videoUrl','videoId')" />
+                <span asp-validation-for="videoUrl" class="text-danger"></span>
+                <p>
+                    @("注意：")<br>
+                    @("輸入格式如：")<br>
+                    @("https://www.youtube.com/watch?v=leDgh1TXsF4") <br>
+                    @("或：")  <br>
+                    @("https://m.youtube.com/watch?v=leDgh1TXsF4")
+                </p>
+                <div style="width:100%">
+                    <iframe id="VideoFile" class="card-img"
+                            width="600"
+                            height="400"
+                            src="@Model.videoId"
+                            frameborder="1"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="videoCount" class="control-label"></label>
+                <input asp-for="videoCount" class="form-control" />
+                <span asp-validation-for="videoCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="videoRemark1" class="control-label"></label>
+                <input asp-for="videoRemark1" class="form-control" />
+                <span asp-validation-for="videoRemark1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="videoRemark2" class="control-label"></label>
+                <input asp-for="videoRemark2" class="form-control" />
+                <span asp-validation-for="videoRemark2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary onDivLeft" />
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function ChangeVideoAddress(videoUrlId, videoSourceId, videoId) {
+        var videoUrl = document.getElementById(videoSourceId).value;
+
+        $.ajax({
+            type: 'POST',
+            url: "/"+'@pathName' + '/VideoFree/GetVideoId',
+            async: true,
+            data: { url: videoUrl },
+            success: function (result) {
+                if (result == 'NG') {
+                    document.getElementById(videoSourceId).value = document.getElementById(videoId).value;
+                    alert("只接受來自youtube的影片 (或是你嘗試輸入youtube播放清單的影片)")
+                } else {
+                    document.getElementById(videoUrlId).src = result;
+                    document.getElementById(videoId).value = result;
+                }
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+
+
+    }
+</script>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

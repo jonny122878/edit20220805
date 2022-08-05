@@ -1,0 +1,78 @@
+﻿@model edit20210325.Models.MemberCashInModel
+
+@{
+    ViewData["Title"] = "在製品編輯";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+<h1>在製品編輯</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MemberCashInId" />
+            <div class="form-group">
+
+                @{
+                    var member = (edit20210325.Models.MemberModel)ViewBag.member;
+                }
+                <p>@("會員名稱："+member.MemberName)</p>
+                <p>@("會員帳號："+member.MemberGmail)</p>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberCashInCash" />
+                <label asp-for="MemberCashInCash" class="control-label"></label>
+                <input disabled asp-for="MemberCashInCash" class="form-control" />
+                <span asp-validation-for="MemberCashInCash" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInName" class="control-label"></label>
+                <input asp-for="MemberCashInName" class="form-control" />
+                <span asp-validation-for="MemberCashInName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInRemarks" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInRemarks" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInRemarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInSpace1" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInSpace1" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInSpace1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInSpace2" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInSpace2" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInSpace2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInSpace3" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInSpace3" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInSpace3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberCashInCrtDate" />
+                <label asp-for="MemberCashInCrtDate" class="control-label"></label>
+                <input disabled asp-for="MemberCashInCrtDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="MemberCashInCrtDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInChgDate" class="control-label"></label>
+                <input asp-for="MemberCashInChgDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="MemberCashInChgDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary onDivLeft" />
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

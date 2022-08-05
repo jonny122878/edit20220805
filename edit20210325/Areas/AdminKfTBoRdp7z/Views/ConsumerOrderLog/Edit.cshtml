@@ -1,0 +1,76 @@
+﻿@model edit20210325.Models.ConsumerOrderLogModel
+
+@{
+    ViewData["Title"] = "製成品消費單編輯";
+    ViewData["ＰageCtrl"] = "2";
+}
+
+<h1>製成品消費單編輯</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberId" />
+                @{
+                    var member = (edit20210325.Models.MemberModel)ViewBag.member;
+                }
+                <p>@("會員名稱："+member.MemberName)</p>
+                <p>@("會員帳號："+member.MemberGmail)</p>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberCashInCash" />
+                <label asp-for="MemberCashInCash" class="control-label"></label>
+                <input disabled asp-for="MemberCashInCash" class="form-control" />
+                <span asp-validation-for="MemberCashInCash" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberCashInDays" />
+                <label asp-for="MemberCashInDays" class="control-label"></label>
+                <input disabled asp-for="MemberCashInDays" class="form-control" />
+                <span asp-validation-for="MemberCashInDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberCashInCounts" />
+                <label asp-for="MemberCashInCounts" class="control-label"></label>
+                <input disabled asp-for="MemberCashInCounts" class="form-control" />
+                <span asp-validation-for="MemberCashInCounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="SalesOrderId" />
+                @{
+                    var salesOrder = (edit20210325.Models.SalesOrderModel)ViewBag.salesOrder;
+                }
+                <p>@("商品名稱："+ salesOrder.ProductName)</p>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInRemarks1" class="control-label"></label>
+                <input asp-for="MemberCashInRemarks1" class="form-control" />
+                <span asp-validation-for="MemberCashInRemarks1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInRemarks2" class="control-label"></label>
+                <input asp-for="MemberCashInRemarks2" class="form-control" />
+                <span asp-validation-for="MemberCashInRemarks2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="MemberCashInCrtDate" />
+                <label asp-for="MemberCashInCrtDate" class="control-label"></label>
+                <input disabled asp-for="MemberCashInCrtDate" class="form-control" />
+                <span asp-validation-for="MemberCashInCrtDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary onDivLeft" />
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

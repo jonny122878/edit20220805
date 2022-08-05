@@ -1,0 +1,212 @@
+﻿@model edit20210325.Models.MemberModel
+
+@{
+    ViewData["Title"] = "會員基本編輯資料";
+    ViewData["ＰageCtrl"] = "6";
+}
+<script>
+    function RadioCheckIdec(id, MemberId) {
+        var iden = document.getElementById(id).value.trim();
+        if (iden.replace(/(^s*)|(s*$)/g, "").length != 0) {
+            checkIdec(id, MemberId)
+        }
+    }
+    function checkIdec(id,MemberId) {
+
+        var iden = document.getElementById(id).value;
+        var checkRmIden1 = document.getElementById("RadioModelIden1").checked;
+        var checkRmIden2 = document.getElementById("RadioModelIden2").checked;
+
+        if (checkRmIden1) {
+            if (!checkID(iden)) {
+                alert("身分證輸入錯誤!請重新輸入");
+                document.getElementById(id).value = "";
+            }
+            else {
+                var formData = new FormData();
+                formData.append('item', iden)
+                formData.append('MemberId', MemberId)
+                $.ajax({
+                    type: 'POST',
+                    url: '/MemberInfo/CheckEditIden',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (result) {
+                        if (result != 'OK') {
+                            alert(result);
+                            document.getElementById(id).value = "";
+                        }
+                    },
+                    error: function (result) {
+                        alert("身分證輸入錯誤!請重新輸入!");
+                        document.getElementById(id).value = "";
+                    }
+                });
+            }
+        }
+
+        if (checkRmIden2) {
+            if (!CheckCompanyNo(iden)) {
+                alert("統一編號輸入錯誤!請重新輸入");
+                document.getElementById(id).value = "";
+            }
+            else {
+                var formData = new FormData();
+                formData.append('item', iden)
+                formData.append('MemberId', MemberId)
+                $.ajax({
+                    type: 'POST',
+                    url: '/MemberInfo/CheckEditIden',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (result) {
+                        if (result != 'OK') {
+                            alert(result);
+                            document.getElementById(id).value = "";
+                        }
+                    },
+                    error: function (result) {
+                        alert("統一編號輸入錯誤!請重新輸入");
+                        document.getElementById(id).value = "";
+                    }
+                });
+            }
+        }
+    }
+    function checkID(id) {
+        tab = "ABCDEFGHJKLMNPQRSTUVXYWZIO"
+        A1 = new Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3);
+        A2 = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5);
+        Mx = new Array(9, 8, 7, 6, 5, 4, 3, 2, 1, 1);
+
+        if (id.length != 10) return false;
+        i = tab.indexOf(id.charAt(0));
+        if (i == -1) return false;
+        sum = A1[i] + A2[i] * 9;
+
+        for (i = 1; i < 10; i++) {
+            v = parseInt(id.charAt(i));
+            if (isNaN(v)) return false;
+            sum = sum + v * Mx[i];
+        }
+        if (sum % 10 != 0) return false;
+        return true;
+    }
+    function CheckCompanyNo(idvalue) {
+        var tmp = new String("12121241");
+        var sum = 0;
+        re = /^\d{8}$/;
+        if (!re.test(idvalue)) {
+            //alert("格式不對！");
+            return false;
+        }
+        for (i = 0; i < 8; i++) {
+            s1 = parseInt(idvalue.substr(i, 1));
+            s2 = parseInt(tmp.substr(i, 1));
+            sum += cal(s1 * s2);
+        }
+        if (!valid(sum)) {
+            if (idvalue.substr(6, 1) == "7") return (valid(sum + 1));
+        }
+        return (valid(sum));
+    }
+    function valid(n) {
+        return (n % 10 == 0) ? true : false;
+    }
+    function cal(n) {
+        var sum = 0;
+        while (n != 0) {
+            sum += (n % 10);
+            n = (n - n % 10) / 10;  // 取整數
+        }
+        return sum;
+    }
+
+    function CheckPhone(id) {
+        var phone = document.getElementById(id).value.trim().slice(4, 10)
+        if (phone == '000000') {
+            alert("電話號碼輸入錯誤!")
+            document.getElementById(id).value = "";
+        }
+    }
+
+</script>
+<br>
+<div class="container" style="min-height:600px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <h1>會員基本編輯資料</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="MemberGmail" class="control-label"></label>
+                    <label class="control-label">@("："+Model.MemberGmail)</label>
+                    <span asp-validation-for="MemberGmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberName" class="control-label"></label>
+                    <input asp-for="MemberName" class="form-control" />
+                    <span asp-validation-for="MemberName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @if (Model.MemberIden.Length == 8)
+                    {
+                        <label class="control-label">@("統一編號")</label>
+                    }
+                    else
+                    {
+                        <label class="control-label">@("身分證字號")</label>
+                    }
+                    <input type="hidden" asp-for="MemberIden" class="form-control" />
+                    <input disabled asp-for="MemberIden" class="form-control" />
+                    <span asp-validation-for="MemberIden" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberPhone" class="control-label"></label>
+                    <input asp-for="MemberPhone" onchange="CheckPhone('MemberPhone')" class="form-control" />
+                    <span asp-validation-for="MemberPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberCompany" class="control-label"></label>
+                    <input asp-for="MemberCompany" class="form-control" />
+                    <span asp-validation-for="MemberCompany" class="text-danger"></span>
+                </div>
+                <input type="hidden" asp-for="MemberGmail" class="form-control" />
+                <input type="hidden" asp-for="MemberRemarks1" class="form-control" />
+                <input type="hidden" asp-for="MemberRemarks2" class="form-control" />
+                <input type="hidden" asp-for="MemberSpace1" class="form-control" />
+                <input type="hidden" asp-for="MemberSpace2" class="form-control" />
+                <input type="hidden" asp-for="MemberCreateDate" class="form-control" />
+                <input type="hidden" asp-for="MemberChangeDate" class="form-control" />
+
+                <div class="form-group">
+                    <button class="btn btn-primary onDivLeft cancel" asp-action="MemberEditEnd">確認</button>
+                    <button class="btn btn-primary onDivRight cancel" asp-action="MemberDataBase">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

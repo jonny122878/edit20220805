@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "後台管理系統";
+    ViewData["ＰageCtrl"] = "6";
+}
+
+<link rel="stylesheet" href="~/css/signin.css" />
+<div class="text-center">
+    <form action="@Url.Action("Index", "Login", new { ReturnUrl = Context.Request.Query["ReturnUrl"] })" method="post" autocomplete="off" asp-antiforgery="true" class="form-signin">
+        <i style="font-size:72px" class="fas fa-user-circle"></i>
+        <h1 class="h3 mb-3 font-weight-normal">管理員登入</h1>
+        <label for="inputUsername" class="sr-only">管理員帳號</label>
+        <input type="text" id="inputUsername" name="inputUsername" class="form-control text-center" placeholder="請輸入帳號" required autofocus>
+        <label for="inputPassword" class="mt-1 sr-only">管理員密碼</label>
+        <input type="password" id="inputPassword" name="inputPassword" class="mt-1 form-control text-center" placeholder="請輸入密碼" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登&ensp;入</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var errMsg = "@Html.Raw(@ViewBag.errMsg)";
+        if (errMsg != "") {
+            alert(errMsg);
+        }
+    });
+</script>
+

@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "後台管理系統";
+}
+<link rel="stylesheet" href="~/css/signin.css" />
+<div class="text-center">
+    <h1 class="display-4">@Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value@("，您好") </h1>
+    <h2>歡迎登入@(" ~ 後台管理系統")</h2>
+    <h4>@("<請操作-導覽航>")</h4>
+    <button id="btnExit" style="width:30%" class="btn btn-lg btn-primary " onclick="location.href='@Url.Action("Logout", "Login")'">登出</button>
+</div>

@@ -1,0 +1,271 @@
+﻿@model edit20210325.Models.VideoPayModel
+@{
+    var pathNameTxt = edit20210325.Function.ProjectSet.AdminName;
+}
+@{
+    ViewData["Title"] = "付費影片編輯";
+    ViewData["ＰageCtrl"] = "3";
+}
+<style>
+    #overlay {
+        position: fixed;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.5;
+        z-index: 10000;
+    }
+    .none {
+        display: none;
+    }
+</style>
+<div id="overlay" style="display:none;">
+    <div class="text-center">
+        <div class="progress" style="background-color:blue">
+            <div id="speed" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+        <p style="color:red;">請稍待 檔案上傳中...</p>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#overlay').hide();
+        BlogVideoUrl('videoCtrl1','.video_show', '#VideSource1', '@Model.videoUrl');
+    });
+</script>
+
+<h1>付費影片編輯</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="videoTitle" class="control-label"></label>
+                <input asp-for="videoTitle" class="form-control" />
+                <span asp-validation-for="videoTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="videoIntro" class="control-label"></label>
+                <textarea asp-for="videoIntro" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="videoIntro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input id="ImagePath" type="hidden" asp-for="videoImageUrl" value="@Model.videoImageUrl">
+                <label asp-for="videoImageUrl" class="control-label"></label>
+                <input type="file" onchange="changeImaage(this,'@Model.Id')" accept="image/*" />
+                <div id="ImageFile" style="width:100%">
+                    <img src="@Model.videoImageUrl" style="width:100%" alt="" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input id="videoPath" type="hidden" asp-for="videoUrl" value="@Model.videoUrl">
+                <label asp-for="videoUrl" class="control-label"></label>
+                <input type="file" onchange="changeVideo(this,'@Model.Id')" accept="video/*" />
+                <div id="VideoFile" style="width:100%">
+                    <video id="videoCtrl1" autoplay controlslist="nodownload" class="video_show" style="width:100%" controls="controls">
+                        <source src="" id="VideSource1">
+                    </video>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary onDivLeft" />
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+    function dealImage(path, obj, callback) {
+        var img = new Image();
+        img.src = path;
+        img.onload = function () {
+            var that = this;
+            // 預設按比例壓縮
+            var w = that.width,
+                h = that.height,
+                scale = w / h;
+            w = obj.width || w;
+            h = obj.height || (w / scale);
+            var quality = 0.9; // 預設圖片質量為0.7
+            //生成canvas
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            // 建立屬性節點
+            var anw = document.createAttribute("width");
+            anw.nodeValue = w;
+            var anh = document.createAttribute("height");
+            anh.nodeValue = h;
+            canvas.setAttributeNode(anw);
+            canvas.setAttributeNode(anh);
+            ctx.drawImage(that, 0, 0, w, h);
+            // 影象質量
+            if (obj.quality && obj.quality <= 1 && obj.quality > 0) {
+                quality = obj.quality;
+            }
+            // quality值越小，所繪製出的影象越模糊
+            var base64 = canvas.toDataURL('image/jpeg', quality);
+            // 回撥函式返回base64的值
+            callback(base64);
+        }
+    }
+
+    function base64ToBlob(urlData, type) {
+        let arr = urlData.split(',');
+        let mime = arr[0].match(/:(.*?);/)[1] || type;
+        let bytes = window.atob(arr[1]);
+        let ab = new ArrayBuffer(bytes.length);
+        let ia = new Uint8Array(ab);
+        for (let i = 0; i < bytes.length; i++) {
+            ia[i] = bytes.charCodeAt(i);
+        }
+        return new Blob([ab], {
+            type: mime
+        });
+    }
+
+    function changeImaage(dom, guid, overlayId = '#overlay', ProgressId = 'progress', ImageFileId = 'ImageFile', ImagePathId = 'ImagePath') {
+        var formData = new FormData();
+        var file = $(dom)[0].files[0];
+        var filename = file.name;
+        var reader = new FileReader();
+        var pathName = '@pathNameTxt';
+        reader.readAsDataURL(file);
+        $(overlayId).show();
+        reader.onload = function (e) {
+            dealImage(this.result, { width: 800 }, function (base) {
+                let baseData = base; // 把整个base64给file
+                var type = "image/jpeg"; // 定义图片类型（canvas转的图片一般都是png，也可以指定其他类型）
+                let conversions = base64ToBlob(baseData, type); // 调用base64转图片方法
+                formData.append('file', conversions, filename);
+                formData.append('Id', guid);
+                xhr = $.ajaxSettings.xhr();
+                $.ajax({
+                    type: 'POST',
+                    url: '/' + pathName + '/VideoPay/changFileImage',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    async: true, //是否异步执行
+                    data: formData,
+                    xhr: function () {
+                        if (OnProgRess && xhr.upload) {
+                            xhr.upload.addEventListener(ProgressId, OnProgRess, false);
+                            return xhr;
+                        }
+                    },
+                    success: function (result) {
+                        document.getElementById(ImageFileId).innerHTML = '<img src="' + result + '" width="100%"  alt="" >';
+                        $(overlayId).hide();
+
+                        var currentFile = document.getElementById(ImagePathId).value;
+                        if (currentFile != null) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/' + pathName + '/VideoPay/deleteFileCallBack',
+                                async: true, //是否异步执行
+                                data: { file: currentFile, newfile: result, path: 'PayVideoImage' },
+                                success: function (res) {
+                                    document.getElementById(ImagePathId).value = res;
+                                },
+                                error: function (result) {
+                                    alert("上傳圖片錯誤~");
+                                }
+                            });
+                        } else {
+                            document.getElementById(ImagePathId).value = result;
+                        }
+
+                    },
+                    error: function (result) {
+                        alert("上傳圖片錯誤~");
+                        $(overlayId).hide();
+                    }
+                });
+            });
+        }
+    }
+
+    function OnProgRess(event, speedId = '#speed') {
+        var event = event || window.event;
+        var loaded = Math.floor(100 * (event.loaded / event.total));
+        $(speedId).html(loaded + "%").css("width", loaded + "%");
+    };
+
+    function changeVideo(dom,  guid, overlayId = '#overlay', ProgressId = 'progress', VideoId = "VideoId", VideoDisplayId = 'VideoFile', VideoPathId = 'videoPath') {
+        var pathName = '@pathNameTxt';
+        var vid = document.getElementById(VideoId);
+        if (vid != null) {
+            document.getElementById(VideoId).remove();
+        }
+        var formData = new FormData();
+        var file = $(dom)[0].files[0];
+        xhr = $.ajaxSettings.xhr();
+        formData.append("file", file);
+        formData.append('Id', guid);
+        $(overlayId).show();
+        $.ajax({
+            type: "POST",
+            url: '/' + pathName + '/VideoPay/changeFileVideo',
+            data: formData,
+            cache: false, //是否缓存
+            async: true, //是否异步执行
+            processData: false, // 是否处理发送的数据  (必须false才会避开jQuery对 formdata 的默认处理)
+            contentType: false, // 是否设置Content-Type请求头
+            xhr: function () {
+                if (OnProgRess && xhr.upload) {
+                    xhr.upload.addEventListener(ProgressId, OnProgRess, false);
+                    return xhr;
+                }
+            },
+            success: function (result) {
+                fetch(result)
+                    .then(function (response) {
+                        return response.blob();
+                    })
+                    .then(function (myBlob) {
+                        let objectURL = URL.createObjectURL(myBlob);
+                        document.getElementById(VideoDisplayId).innerHTML = '<video autoplay  controlslist="nodownload"  id="VideoId" style="width:100%"  controls="controls" >' +
+                            '<source  src="' + objectURL + '" type="video/mp4">' +
+                            '</video>';
+
+                        $(overlayId).hide();
+
+                        var currentFile = document.getElementById(VideoPathId).value;
+                        if (currentFile != null) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/' + pathName + '/VideoPay/deleteFileCallBack',
+                                async: true, //是否异步执行
+                                data: { file: currentFile, newfile: result, path: 'PayVideo' },
+                                success: function (res) {
+                                    document.getElementById(VideoPathId).value = res;
+                                },
+                                error: function (result) {
+                                    alert("上傳影片錯誤~");
+                                }
+                            });
+                        } else {
+                            document.getElementById(VideoPathId).value = result;
+                        }
+
+                    });
+            },
+            error: function (result) {
+                alert("上傳影片錯誤~");
+                $(overlayId).hide();
+            }
+        });
+
+    }
+</script>
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

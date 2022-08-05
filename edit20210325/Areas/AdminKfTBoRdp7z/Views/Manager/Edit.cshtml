@@ -1,0 +1,41 @@
+﻿@model edit20210325.Models.ManagerModel
+
+@{
+    ViewData["Title"] = "管理員資料編輯";
+    ViewData["ＰageCtrl"] = "4";
+}
+
+<h1>管理員資料編輯</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ManagerUser" class="control-label"></label>
+                <input asp-for="ManagerUser" class="form-control" />
+                <span asp-validation-for="ManagerUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagerPassword" class="control-label"></label>
+                <input asp-for="ManagerPassword" value="@Model.ManagerPassword" class="form-control" />
+                <span asp-validation-for="ManagerPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagerName" class="control-label"></label>
+                <input asp-for="ManagerName" class="form-control" />
+                <span asp-validation-for="ManagerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary onDivLeft" />
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

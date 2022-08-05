@@ -1,0 +1,168 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<link rel="stylesheet" href="~/css/speechBubble.css" />
+
+@{
+    ViewData["Description"] = "程式設計公司-早點下班，專精客製化程式設計，滿足你的資料整理、資料分析、資料視覺化需求。快速處理複雜資料，一鍵搞定，無痛上手，省事省時又省心！";
+    ViewData["Title"] = "程式設計公司｜早點下班";
+}
+
+<div class="d-lg-none px-4 px-sm-5 py-5" style="background-color:#F0F6F9">
+    <div class="row">
+        <div class="col-12 col-sm-7">
+            <h1 class="font-weight-bold" style="color:#333333">資料處理超輕鬆！</h1>
+            <h1 class="font-weight-bold" style="color:#333333">客製化<span class="text-primary">「輕」</span>程式</h1>
+            <h5 class="font-weight-bold py-4" style="color:#333333">依據你的資料需求，規劃專屬訂製程式</h5>
+            <p><a asp-controller="ConsultNow" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5" role="btn">立即諮詢</a></p>
+        </div>
+        <div class="col-12 col-sm-5">
+            <img src="~/image/indexBanner.svg" class="rounded mx-auto d-block" width="100%" height="100%" alt="客製化程式設計">
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron" style="background-color:#F0F6F9" >
+    <div class="d-none d-lg-block px-5 py-1 mx-5" style="background-color:#F0F6F9">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1 class="font-weight-bold display-4 text-nowrap" style="color:#333333;">資料處理超輕鬆！</h1>
+                <h1 class="font-weight-bold display-4 text-nowrap" style="color:#333333">客製化<span class="text-primary">「輕」</span>程式</h1>
+                <h4 class="font-weight-bold py-4" style="color:#333333">依據你的資料需求，規劃專屬訂製程式</h4>
+                <p><a asp-controller="ConsultNow" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5" role="btn">立即諮詢</a></p>
+            </div>
+            <div class="col-lg-6">
+                <img src="~/image/indexBanner.svg" class="rounded mx-auto d-block" width="100%" height="100%" alt="客製化程式設計">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mx-auto text-center pt-3 pb-5 px-5">
+    <div class="pb-3 pt-md-5 pb-md-4">
+        <h1 class="font-weight-bold" style="color:#333333">3大功能  自由配</h1>
+    </div>
+    
+    <div class="row font-weight-bold">
+        <div class="col-lg-4 mx-auto">
+            <img src="~/image/dataManagement.svg" class="rounded mx-auto d-block" width="100" height="100" alt="資料整理">
+            <h3 class="font-weight-bold px-3 py-3">資料整理</h3>
+            <p>一次大量刪除或新增資料<br />再也不用人工複製貼上</p>
+        </div>
+        <div class="col-lg-4 mx-auto">
+            <img src="~/image/dataAnalysis.svg" class="rounded mx-auto d-block" width="100" height="100" alt="資料分析">
+            <h3 class="font-weight-bold px-3 py-3">資料分析</h3>
+            <p>快速分析海量數據<br />幾千～十萬筆資料沒問題</p>
+        </div>
+        <div class="col-lg-4 mx-auto">
+            <img src="~/image/dataVisualization.svg" class="rounded mx-auto d-block" width="100" height="100" alt="資料視覺化">
+            <h3 class="font-weight-bold px-3 py-3">資料視覺化</h3>
+            <p>複雜數據迅速變成清晰圖表<br />分析好簡單</p>
+        </div>
+    </div>
+</div>
+
+<div class="mx-auto text-center pt-5 pb-5 px-5" style="background-color:#FFFCEB" >
+    <div class="pb-3 pt-md-5 pb-md-4">
+        <h1 class="font-weight-bold" style="color:#333333">6大特色  高效工作</h1>
+    </div>
+    <div class="mx-auto text-center">    
+        <div class="row font-weight-bold">
+            <div class="col-lg-4 mx-auto">
+                <img src="~/image/customizedProgram.svg" class="rounded mx-auto d-block" width="100" height="100" alt="專屬訂製程式">
+                <h3 class="font-weight-bold px-3 py-3">專屬訂製</h3>
+                <p>針對你的excel資料需求<br />量身客製輕量程式</p>
+            </div>
+            <div class="col-lg-4 mx-auto">
+                <img src="~/image/processDataQuickly.svg" class="rounded mx-auto d-block" width="100" height="100" alt="快速處理資料">
+                <h3 class="font-weight-bold px-3 py-3">快速處理</h3>
+                <p>迅速整理分析大量資料，立即完成</p>
+            </div>
+            <div class="col-lg-4 mx-auto">
+                <img src="~/image/processDataEfficiently.svg" class="rounded mx-auto d-block" width="100" height="100" alt="高效處理資料">
+                <h3 class="font-weight-bold px-3 py-3">省時高效</h3>
+                <p>減少時間浪費，拒絕重複工作<br />高效管理</p>
+            </div>
+             <div class="col-lg-4 mx-auto">
+                <img src="~/image/easyManagement.svg" class="rounded mx-auto d-block" width="100" height="100" alt="輕鬆操作流程">
+                <h3 class="font-weight-bold px-3 py-3">無痛上手</h3>
+                <p>沒有複雜操作流程，只有簡易步驟</p>
+            </div>
+            <div class="col-lg-4 mx-auto">
+                <img src="~/image/tableAndChart.svg" class="rounded mx-auto d-block" width="100" height="100" alt="豐富圖表">
+                <h3 class="font-weight-bold px-3 py-3">豐富圖表</h3>
+                <p>高達27個多元圖表，常見圖表全都有</p>
+            </div>
+            <div class="col-lg-4 mx-auto">
+                <img src="~/image/analysisResult.svg" class="rounded mx-auto d-block" width="100" height="100" alt="報表結果">
+                <h3 class="font-weight-bold px-3 py-3">即時結果</h3>
+                <p>立即查看，5秒內產生報表結果</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mx-auto text-center pt-3 pb-3">
+    <div class="px-3 pb-3 pt-md-3 pb-md-3">
+        <h1 class="font-weight-bold" style="color:#333333">誰適合客製輕程式</h1>
+        <h5 class="font-weight-bold pt-3">中小企業/微型企業、個人工作室/高階主管</h5>
+    </div>
+</div>
+
+<div class="container pb-4">
+    <div class="row">
+        <div class="col-9 offset-1 col-sm-6 offset-sm-2 d-flex align-items-center rounded-pill py-1 speech-bubble-left">
+            <img src="~/image/company.svg" class="rounded" width="60" height="60" alt="中小企業">
+            <p class="m-2">現有軟體無法滿足資料分析的需求，需要額外程式協助處理，例如：中小企業</p>
+        </div>
+    </div>
+    <div class="row py-5">
+        <div class="col-9 offset-2 col-sm-6 offset-sm-4 d-flex align-items-center rounded-pill py-1 speech-bubble-right">
+            <img src="~/image/studio.svg" class="rounded" width="60" height="60" alt="個人工作室">
+            <p class="m-2">常重複繁瑣且無效率的行為，希望透過程式簡化工作，例如：微型企業、個人工作室</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9 offset-1 col-sm-5 offset-sm-2 d-flex align-items-center rounded-pill py-1 speech-bubble-left">
+            <img src="~/image/person.svg" class="rounded" width="60" height="60" alt="個人">
+            <p class="m-2">報表數據太多，整理費時，希望立即知道結果下決策</p>
+        </div>
+    </div>
+    <div class="row pb-5"></div>
+</div>
+
+<div class="jumbotron bg-primary" >
+    <div class="mx-auto text-center">
+            <h1 class="font-weight-bold" style="color:#FFFFFF">更多資料處理需求</h1>
+            <p class="pt-3"><a asp-controller="ConsultNow" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5" role="btn" style="border-style:solid; border-width:2px; border-color:#FFFFFF;">立即諮詢</a></p>
+    </div>
+</div>
+
+<div class="pt-3 pb-5 px-5">
+    <div class="pb-3 pt-md-5 pb-md-4">
+        <h1 class="font-weight-bold text-center" style="color:#333333">瞭解實際案例</h1>
+    </div>
+    <div class="row mx-auto mx-5">
+        <div class="col-md-4">
+            <h3 class="font-weight-bold px-3 py-3 text-center">情境一</h3>
+            <p>公司為進口食品代理商，想知道所有代理產品之銷售狀況。但公司 ERP 系統僅提供單一產品銷售狀況，無法提供產品整合比較資料...</p>
+            <h6 class="font-weight-bold"><a asp-controller="Example" asp-action="Index" asp-fragment="example1" style="text-decoration:none">看更多&gt;</a></h6>        
+        </div>
+        <div class="col-md-4">
+            <h3 class="font-weight-bold px-3 py-3 text-center">情境二</h3>
+            <p>公司為小型企業或個人工作室，販售商品或提供服務，沒有太多預...</p>
+            <h6 class="font-weight-bold"><a asp-controller="Example" asp-action="Index" asp-fragment="example2" style="text-decoration:none">看更多&gt;</a></h6>        
+        </div>
+        <div class="col-md-4">
+            <h3 class="font-weight-bold px-3 py-3 text-center">情境三</h3>
+            <p>公司ERP轉出的資料格式混亂，並不是我們想要的呈現格式。須將每...</p>
+            <h6 class="font-weight-bold"><a asp-controller="Example" asp-action="Index" asp-fragment="example3" style="text-decoration:none">看更多&gt;</a></h6>        
+        </div>
+    </div>
+</div>
+
+
+
+

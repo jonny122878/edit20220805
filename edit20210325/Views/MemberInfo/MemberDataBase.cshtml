@@ -1,0 +1,76 @@
+﻿@model edit20210325.ViewModels.MarkMemberDataBase
+
+@{
+    ViewData["Title"] = "會員基本資料";
+    ViewData["ＰageCtrl"] = "6";
+}
+<br>
+<div class="container" style="min-height:600px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <h1>會員基本資料</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="MemberGmail" class="control-label"></label>
+                    <label class="control-label">@("："+Model.MemberGmail)</label>
+                    <input type="hidden" asp-for="MemberGmail" class="form-control" />
+                    <span asp-validation-for="MemberGmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberName" class="control-label"></label>
+                    <label class="control-label">@("："+Model.MemberName)</label>
+                    <input type="hidden" asp-for="MemberName" class="form-control" />
+                    <span asp-validation-for="MemberName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @if (Model.MemberIden.Length == 8)
+                    {
+                        <lable class="control-label">統一編號</lable>
+                    }
+                    else
+                    {
+                        <lable class="control-label">身分證字號</lable>
+                    }
+                    <label class="control-label">@("："+Model.MemberIden)</label>
+                    <input type="hidden" asp-for="MemberIden" class="form-control" />
+                    <span asp-validation-for="MemberIden" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberPhone" class="control-label"></label>
+                    <label class="control-label">@("："+Model.MemberPhone)</label>
+                    <input type="hidden" asp-for="MemberPhone" class="form-control" />
+                    <span asp-validation-for="MemberPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberCompany" class="control-label"></label>
+                    <label class="control-label">@("："+Model.MemberCompany)</label>
+                    <input type="hidden" asp-for="MemberCompany" class="form-control" />
+                    <span asp-validation-for="MemberCompany" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberMoney" class="control-label"></label>
+                    <label class="control-label">@("："+Model.MemberMoney)</label>
+                    <input type="hidden" asp-for="MemberMoney" class="form-control" />
+                    <span asp-validation-for="MemberMoney" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary" asp-action="MemberEdit">修改資料</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

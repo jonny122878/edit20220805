@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Description"] = "聯絡早點下班-客製程式設計，請加入LINE官方帳號（搜尋 @topefficiencywork），或寄信至service@topefficiencywork.tw。我們會盡快為您服務";
+    ViewData["Title"] = "聯絡我們｜程式設計公司｜早點下班";
+    ViewData["ＰageCtrl"] = "7";
+}
+<ol class="breadcrumb pt-4" style="background-color:#FFFFFF">
+  <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="font-weight-bold">首頁</a></li>
+  <li class="breadcrumb-item active">聯絡我們</li>
+</ol>
+
+<div class="pt-1 pb-5 px-5">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 pb-5 px-md-4 col-lg-4 offset-lg-1" >
+                <h1 class="font-weight-bold">聯絡我們</h1>
+                <h6 style="color:#333333" class="font-weight-bold pt-1 pb-3">客製需求 免費諮詢</h6>
+                <h6 style="color:#868E96">E-mail:service@topefficiencywork.tw</h6>
+                <h6 style="color:#868E96">LINE:搜尋@topefficiencywork</h6>
+                <a class="btn btn-success btn-lg" href="https://lin.ee/nDWUFNh" role="button">加入LINE好友</a>
+        </div>
+        <div class="col-xs-12 col-sm-6" >
+                <div style="background-color:#FBFBFB">
+                    <form role="form">
+                      <div class="form-group">
+                        <label for="name">您的E-mail</label>
+                        <input type="text" class="form-control" id="name" placeholder="請輸入您的E-mail">
+                      </div>
+                        <div class="form-group">
+                        <label for="name">您的需求</label>
+                        <textarea class="form-control" rows="3" placeholder="請輸入您想諮詢的問題及需求"></textarea>
+                        </div>
+                        <div class="form-group" style="text-align:center">
+                      <button type="button" class="btn btn-primary rounded-pill px-5">送出諮詢</button>
+                        </div>
+                    </form>
+
+                </div>
+        </div> 
+    </div>
+</div>
+
+

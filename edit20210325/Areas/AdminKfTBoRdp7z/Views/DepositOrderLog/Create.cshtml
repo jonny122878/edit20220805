@@ -1,0 +1,97 @@
+﻿@model edit20210325.Models.DepositOrderLogModel
+
+@{
+    ViewData["Title"] = "在製品消費單建立";
+    ViewData["ＰageCtrl"] = "2";
+}
+
+<h1>在製品消費單建立</h1>
+<hr />
+<script>
+    $(document).ready(function () {
+        changFuncMember();
+    });
+    function changFuncMember() {
+        @{
+            var jsonMember = Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList);
+         }
+        var memberId = document.getElementById("MemberId").value;
+        var JsonString = @Html.Raw(jsonMember);
+        
+        for (var i = 0; i < JsonString.length; i++) {
+            if (JsonString[i].Id == memberId) {
+                document.getElementById("memberName").innerHTML = "會員名稱："+JsonString[i].MemberName;
+            }
+        }
+         @{
+            var jsonCaseId = Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<edit20210325.Models.MemberCashInModel>)ViewBag.CaseInIds);
+         }
+        var select = document.getElementById("CashInId");
+        select.length = 0;
+        //select.options[0].selected = true;
+        var JsonStringCaseId = @Html.Raw(jsonCaseId);
+        for (var i = 0; i < JsonStringCaseId.length; i++) {
+            if (JsonStringCaseId[i].MemberCashInId == memberId) {
+                var option = document.createElement("option");
+                option.setAttribute("value", JsonStringCaseId[i].Id);
+                option.appendChild(document.createTextNode(JsonStringCaseId[i].MemberCashInName));
+                select.appendChild(option);
+            }
+        }
+    }
+
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MemberId" class="control-label"></label>
+                <select asp-for="MemberId" class="form-control" onchange="changFuncMember()">
+                    @{ var modelList = (IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList;}
+                    @foreach (var it in modelList)
+                    {
+                        <option value="@it.Id">@it.MemberName@(": ")@it.MemberGmail</option>
+                    }
+                </select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+                <P id="memberName"></P>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInCash" class="control-label"></label>
+                <input asp-for="MemberCashInCash" class="form-control" />
+                <span asp-validation-for="MemberCashInCash" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CashInId" class="control-label"></label>
+                <select asp-for="CashInId" class="form-control">
+                </select>
+                <span asp-validation-for="CashInId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInRemarks1" class="control-label"></label>
+                <input asp-for="MemberCashInRemarks1" class="form-control" />
+                <span asp-validation-for="MemberCashInRemarks1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInRemarks2" class="control-label"></label>
+                <input asp-for="MemberCashInRemarks2" class="form-control" />
+                <span asp-validation-for="MemberCashInRemarks2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInCrtDate" class="control-label"></label>
+                <input asp-for="MemberCashInCrtDate" class="form-control" />
+                <span asp-validation-for="MemberCashInCrtDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="建立" class="btn btn-primary onDivLeft" />
+
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "金幣儲值";
+    ViewData["ＰageCtrl"] = "6";
+}
+
+<br>
+<div class="container" style="min-height:600px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <h1>購買金幣</h1>
+    <hr />
+    <div class="jumbotron p-4 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-12 px-0">
+            <p class="lead my-6">
+                &diams;價格<br>
+                &ensp;金幣 ＝ 1：1<br>
+                &ensp;ex：100元新台幣可購買100枚金幣，500元新台幣可購買500枚金幣，以此類推。<br><br>
+                &diams;購買方式<br>
+                &ensp;儲值方式：匯款至XXXXXXXXXXXX戶頭，並將匯款證明回傳至官方line帳號<br><br>
+                &diams;如有任何疑問，請與我們聯絡<br>
+                &ensp;@("gmail：excelhelperx@gmail.com")<br>
+                &ensp;@("官方line@：excelhelperx")<br><br>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿@model edit20210325.Models.MemberCashInModel
+
+@{
+    ViewData["Title"] = "在製品建立";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+<h1>在製品建立</h1>
+<hr />
+<script>
+    $(document).ready(function () {
+        changFunc();
+    });
+    function changFunc() {
+        @{
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList);
+         }
+        var memberId = document.getElementById("MemberCashInId").value;
+        var JsonString = @Html.Raw(json);
+        for (var i = 0; i < JsonString.length; i++) {
+            if (JsonString[i].Id == memberId) {
+                document.getElementById("memberName").innerHTML = "會員名稱："+JsonString[i].MemberName;
+            }
+        }
+    }
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MemberCashInCash" value="0" class="form-control" />
+            <div class="form-group">
+                <label asp-for="MemberCashInId" class="control-label"></label>
+                <select asp-for="MemberCashInId" class="form-control" onchange="changFunc()">
+                    @{ var modelList = (IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList;}
+                    @foreach (var it in modelList)
+                    {
+                        <option value="@it.Id">@it.MemberName@(": ")@it.MemberGmail</option>
+                    }
+                </select>
+                <span asp-validation-for="MemberCashInId" class="text-danger"></span>
+                <P id="memberName"></P>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInName" class="control-label"></label>
+                <input asp-for="MemberCashInName" class="form-control" />
+                <span asp-validation-for="MemberCashInName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInRemarks" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInRemarks" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInRemarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInSpace1" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInSpace1" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInSpace1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInSpace2" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInSpace2" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInSpace2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInSpace3" class="control-label"></label><br>
+                <textarea asp-for="MemberCashInSpace3" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="MemberCashInSpace3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInCrtDate" class="control-label"></label>
+                <input asp-for="MemberCashInCrtDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="MemberCashInCrtDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemberCashInChgDate" class="control-label"></label>
+                <input asp-for="MemberCashInChgDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="MemberCashInChgDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="建立" class="btn btn-primary onDivLeft" />
+
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

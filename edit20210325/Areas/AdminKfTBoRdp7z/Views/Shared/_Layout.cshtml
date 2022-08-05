@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/editStyle.css" />
+    <link rel="stylesheet" href="~/css/offcanvas.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/js/dist/clipboard.min.js"></script>
+    <script>
+        //寫在_Layout.cshtml 供其他頁面使用
+        //為所有的$.ajax呼叫設定預設值，當遇到StatusCode為401時，頁面導至登入頁
+            $.ajaxSetup({
+                statusCode: {
+                    401: function () {//未授權，Unauthorized
+                        //JS導頁
+                       window.location.href = "@Url.Action("Index", "Login")?ReturnUrl=" + encodeURIComponent(window.location.href);
+
+                    }
+                }
+            });
+    </script>
+</head>
+
+<body style="padding-top: 150px;" onload="ShowTime()" onselectstart="return false;" ondragstart="return false;" oncontextmenu="return false;" oncopy="return true;">
+    <script>
+        window.onload = function () {
+            ShowTime();
+            //遮蔽鍵盤事件
+            document.onkeydown = function () {
+                var e = window.event || arguments[0];
+                //F12
+                if (e.keyCode == 123) {
+                    return false;
+                    //Ctrl+Shift+I
+                } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+                    return false;
+                    //Shift+F10
+                } else if ((e.shiftKey) && (e.keyCode == 121)) {
+                    return false;
+                    //Ctrl+U
+                } else if ((e.ctrlKey) && (e.keyCode == 85)) {
+                    return false;
+                }
+            };
+            //遮蔽滑鼠右鍵
+            document.oncontextmenu = function () {
+                return false;
+            }
+        }
+    </script>
+    <header>
+        <nav class="navbar navbar-expand-lg  justify-content-sm-start fixed-top navbar-dark bg-primary">
+            <a style="font-size: 18px;" class="navbar-brand order-0 order-lg-0 ml-lg-0 ml-2 mr-auto" asp-controller="Admin" asp-action="Index"><i class="fas fa-home"></i>後台管理系統</a>
+            <button style="font-size: 18px;" class="navbar-toggler align-self-start mt-2"
+                    type="button">
+                <i class="fas fa-th-list"></i>
+            </button>
+
+            <div style="width:50%;top:6px " class="collapse navbar-collapse d-flex flex-column flex-lg-row flex-xl-row justify-content-lg-end bg-primary p-3 p-lg-0 mt-5 mt-lg-0 mobileMenu onRight"
+                 id="navbarSupportedContent">
+
+                <ul class="navbar-nav align-self-stretch">
+                    <li class="nav-item dropdown">
+                        @if ((string)ViewData["ＰageCtrl"] == "1")
+                        {
+                            <a style="color:aquamarine;font-size:14px;" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-book-open"></i>訂單管理
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="color:#FFFFFF;font-size:14px;" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-book"></i>訂單管理
+                            </a>
+                        }
+                    <div class="dropdown-menu">
+                        <a style="font-size:14px;" class="dropdown-item " asp-controller="SalesOrder" asp-action="Index">製成品</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-controller="CashIn" asp-action="Index">在製品</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-controller="FileLoadInfo" asp-action="Index">檔案上傳管理</a>
+                    </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        @if ((string)ViewData["ＰageCtrl"] == "2")
+                        {
+                            <a style="color:aquamarine;font-size:14px;" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="far fa-address-book"></i>會員管理
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="color:#FFFFFF;font-size:14px;" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-address-book"></i>會員管理
+                            </a>
+                        }
+                        <div class="dropdown-menu">
+                            <a style="font-size:14px;" class="dropdown-item " asp-controller="Member" asp-action="Index">會員基本資料</a>
+                            <a style="font-size:14px;" class="dropdown-item " asp-controller="SaveMoney" asp-action="Index">金幣儲值</a>
+                            <a style="font-size:14px;" class="dropdown-item " asp-controller="ConsumerOrderLog" asp-action="Index">製成品消費紀錄</a>
+                            <a style="font-size:14px;" class="dropdown-item " asp-controller="DepositOrderLog" asp-action="Index">在製品消費紀錄</a>
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        @if ((string)ViewData["ＰageCtrl"] == "3")
+                        {
+                            <a style="color:aquamarine;font-size:14px;" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="far fa-play-circle"></i>影片管理
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="color:#FFFFFF;font-size:14px;" class="nav-link dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-play-circle"></i>影片管理
+                            </a>
+                        }
+                        <div class="dropdown-menu">
+                            <a style="font-size:14px;" class="dropdown-item " asp-controller="VideoFree" asp-action="Index">免費影片管理</a>
+                            <a style="font-size:14px;" class="dropdown-item " asp-controller="VideoPay" asp-action="Index">付費影片管理</a>
+                        </div>
+                    </li>
+
+                    @if ((string)ViewData["ＰageCtrl"] == "4")
+                    {
+                        <li class="nav-item active">
+                            <a style="color:aquamarine;font-size:14px;" class="nav-link divASize" asp-controller="Manager" asp-action="Index"><i class="far fa-id-card"></i>管理員設定</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a style="color:#FFFFFF;font-size:14px;" class="nav-link divASize" asp-controller="Manager" asp-action="Index"><i class="fas fa-id-card"></i>管理員設定</a>
+                        </li>
+                    }
+                    &ensp;
+                    @if ((string)ViewData["ＰageCtrl"] == "6")
+                    {
+                        <li class="nav-item active">
+
+                            <a style="color:aquamarine;font-size:14px;" class="nav-link divASize" asp-controller="Login" asp-action="Index"> <i class="fas fa-user"></i>登入</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item ">
+                            <a style="color:#FFFFFF;font-size:14px;" class="nav-link divASize" asp-controller="Login" asp-action="Logout">
+                                <i class="fas fa-user"></i> @Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.NameIdentifier).Value @("登出")
+                            </a>
+                        </li>
+                    }
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <!--   <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        -->
+                </form>
+            </div>
+        </nav>
+        <div class="overlay"></div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div id="showtime" class="container">
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/function.js" asp-append-version="true"></script>
+    <script src="~/js/offcanvas.js" asp-append-version="true"></script>
+    <script src="~/js/VideoFunc.js" asp-append-version="true"></script>
+    
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

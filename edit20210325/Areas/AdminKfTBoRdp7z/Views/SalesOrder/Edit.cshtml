@@ -1,0 +1,108 @@
+﻿@model edit20210325.Models.SalesOrderModel
+
+@{
+    ViewData["Title"] = "製成品編輯";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+
+<h1>製成品編輯</h1>
+<hr />
+<script>
+    function func(text) {
+        var clipboard = new ClipboardJS('.btnCopy', {
+            text: function () {
+                return text;
+            },
+        });
+
+        clipboard.on('success', function (e) {
+            //console.log(e);
+        });
+
+        clipboard.on('error', function (e) {
+            //console.log(e);
+        });
+    }
+</script>
+<div class="row">
+    <div class="col-md-5">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductDays" class="form-control" />
+            <input type="hidden" asp-for="MemberId" />
+            <div class="form-group">
+                @{
+                    var member = (edit20210325.Models.MemberModel)ViewBag.member;
+                }
+                
+                <P>@("編號："+ Model.Id)&ensp;<input type="button" class="btnCopy" onclick="func('@Model.Id')" value="複製編號" /></P>
+                <p>@("會員名稱："+member.MemberName)</p>
+                <p>@("會員帳號："+member.MemberGmail)</p>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductInfo" class="control-label"></label><br>
+                <textarea asp-for="ProductInfo" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="ProductInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCharge" class="control-label"></label>
+                <select asp-for="ProductCharge" class="form-control">
+                    <option value="期間">期間</option>
+                    <option value="計次">計次</option>
+                </select>
+                <span asp-validation-for="ProductCharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCounts" class="control-label"></label>
+                <input asp-for="ProductCounts" class="form-control" />
+                <span asp-validation-for="ProductCounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductUnitDays" class="control-label"></label>
+                <input asp-for="ProductUnitDays" class="form-control" />
+                <span asp-validation-for="ProductUnitDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductUnitPrice" class="control-label"></label>
+                <input asp-for="ProductUnitPrice" class="form-control" />
+                <span asp-validation-for="ProductUnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRemarks1" class="control-label"></label>
+                <textarea asp-for="ProductRemarks1" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="ProductRemarks1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRemarks2" class="control-label"></label>
+                <textarea asp-for="ProductRemarks2" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="ProductRemarks2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCreateDate" class="control-label"></label>
+                <input asp-for="ProductCreateDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="ProductCreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductChangeDate" class="control-label"></label>
+                <input asp-for="ProductChangeDate" class="form-control" />
+                <span asp-validation-for="ProductChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="儲存" class="btn btn-primary onDivLeft" />
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

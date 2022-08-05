@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Description"] = "用精省價格，入手企業級的輕程式。方案包含基礎、進階及特殊專案，最低只要3000起。程式設計費僅收取一次，每月訂閱費最低只要300起，即刻享有客製程式設計";
+    ViewData["Title"] = "服務收費｜程式設計公司｜早點下班";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+<ol class="breadcrumb pt-4" style="background-color:#FFFFFF">
+  <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="font-weight-bold">首頁</a></li>
+  <li class="breadcrumb-item active">服務收費</li>
+</ol>
+
+<div class="container px-5">
+   <div class="d-flex justify-content-center">
+       <h1 class="font-weight-bold pb-3">用精省價格  入手企業級的輕程式</h1>
+    </div>
+</div>
+
+<div class="container table-responsive-sm pb-4">
+    <table class="table table-hover table-primary text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col" class="text-nowrap">特色</th>
+              <th scope="col" class="text-nowrap">早點下班客製程式</th>
+              <th scope="col" class="text-nowrap">程式公司</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-light">
+              <th scope="row">客製程式</th>
+              <td>專精excel資料處理</td>
+              <td>各式案件</td>
+            </tr>
+            <tr class="table-light">
+              <th scope="row">客製化程度</th>
+              <td>高</td>
+              <td>高</td>
+            </tr>
+            <tr class="table-light">
+              <th scope="row" class="pt-3">開發時間</th>
+              <td class="py-1">短 (10~30天)
+                  <img src="~/image/win.svg" class="rounded" width="45" height="45" alt="勝">
+              </td>
+              <td class="pt-3">長 (3~6個月)</td>
+            </tr>
+            <tr class="table-light">
+              <th scope="row" class="pt-3">費用</th>
+              <td class="py-1">$$精省
+                  <img src="~/image/win.svg" class="rounded" width="45" height="45" alt="勝">
+              </td>
+              <td class="pt-3">$$$$$昂貴</td>
+            </tr>
+          </tbody>
+    </table>
+</div>
+
+<div class="container py-3 px-5">
+    <div class="d-flex justify-content-center">
+       <h1 class="font-weight-bold pb-3">一次訂製  每月訂閱</h1>
+    </div>
+    <p class="text-center">*訂製費僅收取一次</p>
+</div>
+
+<div class="container px-5">
+    <div class="card-deck mb-3">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal text-center" style="color:#333333">基礎</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title"><small>NT$ </small>3,000~10,000</h3>
+                <ul class="mt-3 mb-4">
+                    <li>簡易資料整理與分析</li>
+                    <li>單一功能</li>
+                </ul>
+                <p><a asp-controller="Example" asp-action="Index" asp-fragment="example3" class="btn btn-lg btn-block btn-outline-primary" role="btn">實際案例(資料整理)&gt;</a></p>
+            </div>
+        </div>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal text-center" style="color:#333333">進階</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title text-nowrap"><small>NT$ </small>10,000~30,000</h3>
+                <ul class="mt-3 mb-4">
+                    <li>複雜大量資料整理與分析</li>
+                    <li>較多功能</li>
+                    <li>未來可持續擴充</li>
+                </ul>
+                <p><a asp-controller="Example" asp-action="Index" asp-fragment="example1" class="btn btn-lg btn-block btn-outline-primary" role="btn">實際案例(資料分析)&gt;</a></p>
+                <p class="pt-2"><a asp-controller="Example" asp-action="Index" asp-fragment="example2" class="btn btn-lg btn-block btn-outline-primary" role="btn">實際案例(迷你ERP)&gt;</a></p>
+
+            </div>
+        </div>
+        <div class="card mb-4 shadow-sm text-center">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal" style="color:#333333">特殊專案</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title pricing-card-title"><small>NT$ </small>30,000<small> 起</small></h3>
+                <p><small>依據複雜度提供報價</small></p>
+                <ul class="mt-4 mb-4 list-unstyled">
+                    <li>其它特殊客製需求</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <p>以上方案，享每月訂閱費最低<span class="text-primary" style="font-size:24px;"> NT 300 起</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mx-auto text-center pt-3 pb-5 px-5">
+    <p class="pt-3"><a asp-controller="ConsultNow" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5" role="btn">立即諮詢</a></p>
+</div>
+

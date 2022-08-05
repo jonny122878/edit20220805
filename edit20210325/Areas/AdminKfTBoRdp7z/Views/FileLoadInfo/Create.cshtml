@@ -1,0 +1,69 @@
+﻿@model edit20210325.Models.FileLoadInfoModel
+
+@{
+    ViewData["Title"] = "檔案訂單建立";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+<h1>檔案訂單建立</h1>
+<hr />
+<script>
+    $(document).ready(function () {
+        changFunc();
+    });
+    function changFunc() {
+        @{
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList);
+         }
+        var memberId = document.getElementById("MemberSaveId").value;
+        var JsonString = @Html.Raw(json);
+        for (var i = 0; i < JsonString.length; i++) {
+            if (JsonString[i].Id == memberId) {
+                document.getElementById("memberName").innerHTML = "會員名稱："+JsonString[i].MemberName;
+            }
+        }
+    }
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MmberId" class="control-label"></label>
+                <select asp-for="MmberId" class="form-control" onchange="changFunc()">
+                    @{ var modelList = (IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList;}
+                    @foreach (var it in modelList)
+                    {
+                    <option value="@it.Id">@it.MemberName@(": ")@it.MemberGmail</option>
+                    }
+                </select>
+                <span asp-validation-for="MmberId" class="text-danger"></span>
+                <P id="memberName"></P>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileTitle" class="control-label"></label>
+                <input asp-for="FileTitle" class="form-control" />
+                <span asp-validation-for="FileTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileInfo" class="control-label"></label>
+                <textarea asp-for="FileInfo" class="form-control" rows="6" cols="30" ></textarea>
+                <span asp-validation-for="FileInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FileUpDateTime" class="control-label"></label>
+                <input asp-for="FileUpDateTime" class="form-control" />
+                <span asp-validation-for="FileUpDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="建立" class="btn btn-primary onDivLeft" />
+
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

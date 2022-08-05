@@ -1,0 +1,25 @@
+﻿@{
+
+    ViewData["Title"] = "";
+    ViewData["ＰageCtrl"] = "";
+    var path = ViewData["Debug"].ToString().Replace("5C", "\\");
+
+}
+<script>
+    $(document).ready(function () {
+        document.getElementById("subDebug").hidden = true;
+    });
+    function submitFunc() 
+    {
+        document.getElementById("subDebug").click();
+    }
+</script>
+<div class="container py-5">
+    <form name="submitForm" asp-action="DownloadFile">
+        <input type="hidden" id="filename" name="filename" value="Setup1.msi">
+        <a href="javascript:document.submitForm.submit()">早點下班主程式載點</a>
+        @*<input type="submit" id="subDebug" value="建立" class="btn btn-primary onDivLeft" />*@
+        @*<a asp-action="GetFile" asp-controller="Downlond" asp-route-path=@path>早點下班主程式載點</a>
+        <a href="/Download/GetFile">早點下班主程式載點</a>*@
+    </form>
+</div>

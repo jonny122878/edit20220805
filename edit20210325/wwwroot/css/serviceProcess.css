@@ -1,0 +1,28 @@
+.col-lg-arrow {
+    -ms-flex: 0 0 2%;
+    flex: 0 0 2%;
+    max-width: 2%;
+}
+
+
+.col-lg-arrow {
+    position: relative;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.col-lg-wide {
+    -ms-flex: 0 0 21.25%;
+    flex: 0 0 21.25%;
+    max-width: 21.25%;
+}
+
+
+.col-lg-wide {
+    position: relative;
+    width: 100%;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+

@@ -1,0 +1,225 @@
+﻿@model edit20210325.Models.MemberModel
+@{ 
+    var gmailData = (edit20210325.ViewModels.MarkGmailData)ViewBag.GmailData;}
+
+@{
+    ViewData["Title"] = "註冊會員帳號";
+    ViewData["ＰageCtrl"] = "6";
+}
+<script>
+    function CheckPhone(id) {
+        var phone = document.getElementById(id).value.trim().slice(4, 10)
+        if (phone == '000000') {
+            alert("電話號碼輸入錯誤!")
+            document.getElementById(id).value = "";
+        }
+    }
+
+    function RadioCheckIdec(id) {
+        var iden = document.getElementById(id).value.trim();
+        if (iden.replace(/(^s*)|(s*$)/g, "").length != 0) {
+            checkIdec(id)
+        }
+    }
+    function checkIdec(id) {
+
+        var iden = document.getElementById(id).value;
+        var checkRmIden1 = document.getElementById("RadioModelIden1").checked;
+        var checkRmIden2 = document.getElementById("RadioModelIden2").checked;
+
+        if (checkRmIden1) {
+            if (!checkID(iden)) {
+                alert("身分證輸入錯誤!請重新輸入");
+                document.getElementById(id).value = "";
+            }
+            else {
+                var formData = new FormData();
+                formData.append('item', iden)
+                $.ajax({
+                    type: 'POST',
+                    url: '/MemberInfo/CheckIden',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (result) {
+                        if (result != 'OK') {
+                            alert(result);
+                            document.getElementById(id).value = "";
+                        }
+                    },
+                    error: function (result) {
+                        alert("身分證輸入錯誤!請重新輸入");
+                        document.getElementById(id).value = "";
+                    }
+                });
+            }
+        }
+
+        if (checkRmIden2) {
+            if (!CheckCompanyNo(iden)) {
+                alert("統一編號輸入錯誤!請重新輸入");
+                document.getElementById(id).value = "";
+            }
+            else {
+                var formData = new FormData();
+                formData.append('item', iden)
+                $.ajax({
+                    type: 'POST',
+                    url: '/MemberInfo/CheckIden',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (result) {
+                        if (result != 'OK') {
+                            alert(result);
+                            document.getElementById(id).value = "";
+                        }
+                    },
+                    error: function (result) {
+                        alert("統一編號輸入錯誤!請重新輸入");
+                        document.getElementById(id).value = "";
+                    }
+                });
+            }
+        }
+    }
+    function checkID(id) {
+        tab = "ABCDEFGHJKLMNPQRSTUVXYWZIO"
+        A1 = new Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3);
+        A2 = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5);
+        Mx = new Array(9, 8, 7, 6, 5, 4, 3, 2, 1, 1);
+
+        if (id.length != 10) return false;
+        i = tab.indexOf(id.charAt(0));
+        if (i == -1) return false;
+        sum = A1[i] + A2[i] * 9;
+
+        for (i = 1; i < 10; i++) {
+            v = parseInt(id.charAt(i));
+            if (isNaN(v)) return false;
+            sum = sum + v * Mx[i];
+        }
+        if (sum % 10 != 0) return false;
+        return true;
+    }
+    function CheckCompanyNo(idvalue) {
+        var tmp = new String("12121241");
+        var sum = 0;
+        re = /^\d{8}$/;
+        if (!re.test(idvalue)) {
+            //alert("格式不對！");
+            return false;
+        }
+        for (i = 0; i < 8; i++) {
+            s1 = parseInt(idvalue.substr(i, 1));
+            s2 = parseInt(tmp.substr(i, 1));
+            sum += cal(s1 * s2);
+        }
+        if (!valid(sum)) {
+            if (idvalue.substr(6, 1) == "7") return (valid(sum + 1));
+        }
+        return (valid(sum));
+    }
+    function valid(n) {
+        return (n % 10 == 0) ? true : false;
+    }
+    function cal(n) {
+        var sum = 0;
+        while (n != 0) {
+            sum += (n % 10);
+            n = (n - n % 10) / 10;  // 取整數
+        }
+        return sum;
+    }
+</script>
+<style>
+    .tooltipEx {
+        position: relative;
+        display: inline-block;
+        border-bottom: 0px dotted black;
+        color: #e4a005;
+    }
+    .tooltipEx .tooltiptextEx {
+            visibility: hidden;
+            width: 220px;
+            background-color: #f8f5ce;
+            color: #000000;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 110%;
+            left: 50%;
+            margin-left: -60px;
+            font-size:10px;
+        }
+    .tooltipEx .tooltiptextEx::after {
+                content: "";
+                position: absolute;
+                bottom: 100%;
+                left: 10%;
+                margin-left: -5px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: transparent transparent #f8f5ce transparent;
+            }
+    .tooltipEx:hover .tooltiptextEx {
+        visibility: visible;
+    }
+</style>
+<br>
+<div class="container" style="min-height:600px">
+    <h1>註冊會員帳號</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="MemberGmail" value="@gmailData.Gmail" class="form-control" />
+                    <P>會員帳號：@(gmailData.Gmail)</P>
+                    <span asp-validation-for="MemberGmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberName" class="control-label"></label>
+                    <input asp-for="MemberName" value="@gmailData.Name" class="form-control" />
+                    <span asp-validation-for="MemberName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @Html.RadioButton("RadioModelIden", "Match1", true, new { id = "RadioModelIden1", onchange= "RadioCheckIdec('MemberIden')", @class = " p-0" })身分證字號
+                    @Html.RadioButton("RadioModelIden", "Match2", false, new { id = "RadioModelIden2", onchange = "RadioCheckIdec('MemberIden')", @class = "p-0" })統一編號 
+                    <input asp-for="MemberIden" onchange="checkIdec('MemberIden')" class="form-control" />
+                    <span asp-validation-for="MemberIden" class="text-danger "></span>
+                    <div class="tooltipEx">
+                        為何要填入(身分證字號/統一編號)
+                        <span class="tooltiptextEx">同一(身分證/統一編號)只能註冊一個帳號<br>，通過檢查即可註冊新帳號。</span>
+                    </div>
+                </div>
+              
+                <div class="form-group">
+                    <label asp-for="MemberPhone" class="control-label"></label>
+                    <input asp-for="MemberPhone" onchange="CheckPhone('MemberPhone')" class="form-control" />
+                    <span asp-validation-for="MemberPhone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberCompany" class="control-label"></label>
+                    <input asp-for="MemberCompany" class="form-control" />
+                    <span asp-validation-for="MemberCompany" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="註冊" class="btn btn-primary onDivLeft" />
+
+                    <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="JudgeIndex" asp-controller="Home">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Description"] = "程式設計常見問題：要如何訂購客製程式？程式可以試用嗎？程式可以新增或修改需求嗎？程式最多可分析幾筆資料？程式是否可多人使用？程式如果發生問題，可以修復嗎？";
+    ViewData["Title"] = "常見問題｜程式設計公司｜早點下班";
+    ViewData["ＰageCtrl"] = "4";
+}
+
+<ol class="breadcrumb pt-4" style="background-color:#FFFFFF">
+  <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="font-weight-bold">首頁</a></li>
+  <li class="breadcrumb-item active">常見問題</li>
+</ol>
+
+
+<div class="container pb-5 px-5">
+    <h1 class="font-weight-bold text-center pb-3">常見問題</h1>
+    <div class="row">
+        <div class="col-12 mx-auto">
+            <div class="accordion" id="faqExample">
+                <div class="card">
+                    <div class="card-header p-2" id="headingOne">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                1.公司的營業時間是什麼時候？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqExample">
+                        <div class="card-body">
+                            本公司採遠端服務，主要使用 LINE 官方帳號與客戶即時聯絡。收到客戶訊息後，我們會盡快回覆客戶。如有大量資料需提供，則使用 E-mail。
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingTwo">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                               2.要如何訂購客製程式？流程大概是如何？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqExample">
+                        <div class="card-body">
+                            <ul>
+                                <li>聯繫我們 → 請先加入LINE 官方帳號，與我們說明你的需求</li>
+                                <li>了解需求 → 我們會先透過 LINE 與你討論，初步評估你的需求，是否屬於我們承接的範圍</li>
+                                <li>預約細談 → 確認可承接你的需求後，會與你進行線上面談，詳細討論你的需求</li>
+                                <li>正式合作 → 需求與細節確認完畢，提供正式合作報價單</li>
+                                <li>收取訂金 → 我們會收取合作報價單的 50 % 作為定金</li>
+                                <li>撰寫程式 → 提供操作介面示意圖，供你確認。確認無誤後，依照需求及程式複雜度，進行程式開發。工作天數預估為 10-30 天，依實際情況而定。若為特殊專案，則工作天數另計。</li>
+                                <li>程式測試 → 提供初版程式進行測試，並提供 7 天測試滿意服務</li>
+                                <li>正式交付 → 若測試無誤，正式交付程式，交付日為月費起算日</li>
+                                <li>支付尾款 → 程式正式交付後，我們會收取合作報價單的50 % 作為尾款</li>
+                                <li>完成結案</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingThree">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                3.下訂後，還可以新增或修改需求嗎？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqExample">
+                        <div class="card-body">
+                            下訂後，會先提供操作介面示意圖，供你確認。在此期間，若新增或修改需求是可行的，我們會盡力完成，若因新增需求而有衍伸費用，則需另外報價
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingFour">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                4.程式可以試用嗎？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#faqExample">
+                        <div class="card-body">
+                            程式皆是客製產品，為客戶量身打造，故無提供免費試用。但有 7 天測試滿意服務，在測試期間，皆可提出問題，如果測試沒有問題，則會正式交付客製程式
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingFive">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                5.可以退貨嗎？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#faqExample">
+                        <div class="card-body">
+                            程式皆是客製產品，為客戶量身打造，故無法退貨。若於製作期間，想提早解約，雙方合意扣除已執行之實際費用，安排後續退款
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingSix">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                6.程式如果發生問題，可以修復嗎？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#faqExample">
+                        <div class="card-body">
+                            交付正式程式後，我們提供 ７ 天測試滿意服務，客戶於此期間皆可無限測試。若測試期過後，發生無法使用或其他問題，我們會依照你的需求分析原因，並提供建議處理方式，視情況酌收服務處理費。若因人為使用不當，造成程式無法使用，則不在修復範圍內
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingSeven">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                7.程式是否有什麼特殊限制？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#faqExample">
+                        <div class="card-body">
+                            匯入的檔案須為 excel ，副檔名須為 xlsx.，不能為xls.。電腦須為 windows系統（64 位元），未支援蘋果電腦
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingEight">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                                8.程式最多可分析幾筆資料？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#faqExample">
+                        <div class="card-body">
+                            分析的總資料筆數不能超過 10 萬筆
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header p-2" id="headingNine">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                               9.程式是可否多人同時使用?
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#faqExample">
+                        <div class="card-body">
+                            <p>原則上程式和電腦互為綁定，僅供單一電腦登入使用，若有多機登入需求，須另外酌收訂製收費。</p>
+                        </div>
+                    </div>
+                </div>
+@*                <div class="card">
+                    <div class="card-header p-2" id="headingTen">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                               10.第一次使用程式，要如何使用？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="#faqExample">
+                        <div class="card-body">
+                            <ol>
+                                <li>進入官網<a asp-controller="Home" asp-action="Index">https://www.topefficiencywork.tw</a></li>
+                                <li>點擊「註冊／登入」，登入你的google帳戶（如沒有google帳號，需事先至google申請）<a href="https://www.google.com/intl/zh-TW/account/about" target="_blank">https://www.google.com/intl/zh-TW/account/about</a></li>
+                                <li>進入下載專區，將檔案下載至電腦</li>
+                                <li>開啟已下載的檔案</li>
+                                <li>登入主程式，開始使用</li>
+                                <li>登入主程式，開始使用</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+*@                <div class="card">
+                    <div class="card-header p-2" id="headingEleven">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                10.程式預設的帳號和密碼為何？
+                            </button>
+                        </h5>
+                    </div>
+                    <div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="#faqExample">
+                        <div class="card-body">
+                            帳號預設為 google 帳號，密碼預設為身分證字號
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

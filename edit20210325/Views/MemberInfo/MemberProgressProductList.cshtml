@@ -1,0 +1,137 @@
+﻿@model IEnumerable<edit20210325.Models.MemberCashInModel>
+
+@{
+    ViewData["Title"] = "已訂製商品";
+    ViewData["ＰageCtrl"] = "6";
+    int[] CashInMoney = new int[Model.Count()];
+    var DepositOrderLogls = (IEnumerable<edit20210325.Models.DepositOrderLogModel>)ViewBag.DepositList;
+}
+<script>
+    //getMenoy('Model.ToList()[i].Id','Model.ToList()[i].MemberCashInName')
+    function getMenoy(Guid, name) {
+
+        var result = window.prompt(name + '，請輸入訂金-金幣數', '');
+        var re = /^[0-9]+$/;
+        if (!re.test(result)) {
+            alert('只能輸入數字!');
+            return;
+        }
+        var money = parseInt(result)
+        if (isNaN(money) || '') {
+            alert('取消訂金');
+        } else {
+
+            var confirm = window.confirm(name + "，輸入金幣數為 " + money );
+            if (confirm) {
+                var formData = new FormData();
+                formData.append('Id', Guid);
+                formData.append('GetMoney', money);
+                $.ajax({
+                    type: 'POST',
+                    url: '/MemberInfo/AddProgressProductMomey',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (result) {
+                        if (result == 'NG') {
+                            alert("給付訂金錯誤!");
+                        }
+                        else if (result == 'OK') {
+                            alert("給付訂金完成!");
+                        }
+                        else {
+                            alert(result);
+                        }
+                        window.location.replace("/MemberInfo/MemberProgressProductList")
+                    },
+                    error: function (result) {
+                        alert("網路錯誤!");
+
+                    }
+                });
+            }
+
+        }
+    }
+
+
+
+</script>
+
+
+<br>
+<div class="container" style="min-height:1000px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <div class="form-inline">
+        <div class="mr-auto">
+            <h1>已訂製商品</h1>
+        </div>
+    </div> 
+    <hr />
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="card bg-light mb-3" style="width:100%;">
+                    <div class="card-header">
+                        <div class="form-inline">
+                            <div class="mr-auto">
+                                @("項目"+(i+1).ToString("0#"))
+                            </div>
+                            <div>
+                                @if ( Model.ToList()[i].MemberCashInSpace1 == null || !Model.ToList()[i].MemberCashInSpace1.Trim().Equals("結案"))
+                                {
+                                    <a class="btn btn-primary" href="@Url.Action("AddProgressProductMomeyPage","MemberInfo",new { GId = Model.ToList()[i].Id })">給付金幣</a>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                    @{
+                        var DepositOrderLog = DepositOrderLogls.Where(c => c.CashInId == Model.ToList()[i].Id.ToString()).ToList();
+                        if (DepositOrderLog.Count > 0)
+                        {
+                            CashInMoney[i] = DepositOrderLog.Select(c => c.MemberCashInCash).Aggregate((r, s) => r + s);
+                        }
+                    }
+                    <div class="card-body">
+                        <h4 class="card-title">@Model.ToList()[i].MemberCashInName</h4>
+                        <p class="card-text">
+                            <br>
+                            <br>@("給付金額：")@(Model.ToList()[i].MemberCashInCash + CashInMoney[i])
+                            <br>@("給付日期：")@Model.ToList()[i].MemberCashInChgDate.ToString("yyyy-MM-dd HH:mm")
+                            <br>
+                            @if (Model.ToList()[i].MemberCashInSpace1 == null || !Model.ToList()[i].MemberCashInSpace1.Trim().Equals("結案"))
+                            {
+                                <br>@("專案進度：")           
+                                <br>@Html.Raw("&emsp; &emsp;&emsp; &emsp;")@Model.ToList()[i].MemberCashInRemarks
+                                <br>
+                                <br>@("給付狀態：")@Model.ToList()[i].MemberCashInSpace1
+                                <br>
+                                <br>@("備註：")
+                                <br>@Html.Raw("&emsp; &emsp;")@Model.ToList()[i].MemberCashInSpace2
+                        }
+                        else
+                        {
+                                <br>@("案子結束")
+                            }
+
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

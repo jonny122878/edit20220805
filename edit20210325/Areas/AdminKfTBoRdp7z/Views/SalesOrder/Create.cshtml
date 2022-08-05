@@ -1,0 +1,108 @@
+﻿@model edit20210325.Models.SalesOrderModel
+
+@{
+    ViewData["Title"] = "製成品建立";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+<h1>製成品建立</h1>
+<hr />
+<script>
+    $(document).ready(function () {
+        changFunc();
+    });
+    function changFunc() {
+        @{
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList);
+         }
+        var memberId = document.getElementById("MemberId").value;
+        var JsonString = @Html.Raw(json);
+        for (var i = 0; i < JsonString.length; i++) {
+            if (JsonString[i].Id == memberId) {
+                document.getElementById("memberName").innerHTML = "會員名稱："+JsonString[i].MemberName;
+            }
+        }
+    }
+</script>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductDays" class="form-control" value="0" />
+            <div class="form-group">
+                <label asp-for="MemberId" class="control-label"></label>
+                <select asp-for="MemberId" class="form-control" onchange="changFunc()">
+                    @{ var modelList = (IEnumerable<edit20210325.Models.MemberModel>)ViewBag.ModelList;}
+                    @foreach (var it in modelList)
+                    {
+                        <option value="@it.Id">@it.MemberName@(": ")@it.MemberGmail</option>
+                    }
+                </select>
+                <span asp-validation-for="MemberId" class="text-danger"></span>
+                <P id="memberName"></P>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductInfo" class="control-label"></label><br>
+                <textarea asp-for="ProductInfo" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="ProductInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCharge" class="control-label"></label>
+                <select asp-for="ProductCharge" class="form-control">
+                    <option value="期間">期間</option>
+                    <option value="計次">計次</option>
+                </select>
+                <span asp-validation-for="ProductCharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCounts" class="control-label"></label>
+                <input asp-for="ProductCounts" class="form-control" />
+                <span asp-validation-for="ProductCounts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductUnitDays" class="control-label"></label>
+                <input asp-for="ProductUnitDays" class="form-control" />
+                <span asp-validation-for="ProductUnitDays" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductUnitPrice" class="control-label"></label>
+                <input asp-for="ProductUnitPrice" class="form-control" />
+                <span asp-validation-for="ProductUnitPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRemarks1" class="control-label"></label>
+                <textarea asp-for="ProductRemarks1" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="ProductRemarks1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductRemarks2" class="control-label"></label>
+                <textarea asp-for="ProductRemarks2" class="form-control" rows="6" cols="30"></textarea>
+                <span asp-validation-for="ProductRemarks2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductCreateDate" class="control-label"></label>
+                <input asp-for="ProductCreateDate" type="date" asp-format="{0:yyyy-MM-dd}" class="form-control" />
+                <span asp-validation-for="ProductCreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductChangeDate" class="control-label"></label>
+                <input asp-for="ProductChangeDate" class="form-control" />
+                <span asp-validation-for="ProductChangeDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="建立" class="btn btn-primary onDivLeft" />
+
+                <button id="btnExit" class="btn btn-primary onDivRight cancel" asp-action="exit">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

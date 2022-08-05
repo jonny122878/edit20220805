@@ -1,0 +1,240 @@
+﻿@model IEnumerable<edit20210325.ViewModels.MarkFileLoadInfoModel>
+@{
+    var pathName = edit20210325.Function.ProjectSet.AdminName;
+}
+@{
+    ViewData["Title"] = "檔案上傳紀錄";
+    ViewData["ＰageCtrl"] = "1";
+}
+
+
+<style>
+    #overlay {
+        position: fixed;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.5;
+        z-index: 10000;
+    }
+
+    .none {
+        display: none;
+    }
+</style>
+<div id="overlay" style="display:none;">
+    <div class="text-center">
+        <div class="progress" style="background-color:blue">
+            <div id="speed" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+        <p style="color:red;">請稍待 檔案上傳中...</p>
+    </div>
+</div>
+
+<h1>檔案上傳紀錄</h1>
+<h4>查詢條件</h4>
+<form class="form-inline  " role="form">
+    <div class="form-group m-0 p-0 mr-auto">
+        <label for="searchSelect">搜尋欄位:&ensp;</label>
+        <select Name="searchSelect" id="searchSelectId" onchange="searchSelectFunc()">
+            @if ((string)ViewData["searchSelect"] == "1")
+            {
+                <option value="1" selected>@Html.DisplayNameFor(model => model.MemberGmail)</option>
+            }
+            else
+            {
+                <option value="1">@Html.DisplayNameFor(model => model.MemberGmail)</option>
+            }
+            @if ((string)ViewData["searchSelect"] == "2")
+            {
+                <option value="2" selected>@Html.DisplayNameFor(model => model.MemberName)</option>
+            }
+            else
+            {
+                <option value="2">@Html.DisplayNameFor(model => model.MemberName)</option>
+            }
+            @if ((string)ViewData["searchSelect"] == "3")
+            {
+                <option value="3" selected>@Html.DisplayNameFor(model => model.FileTitle)</option>
+
+            }
+            else
+            {
+                <option value="3">@Html.DisplayNameFor(model => model.FileTitle)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "4")
+            {
+                <option value="4" selected>@Html.DisplayNameFor(model => model.FileUpDateTime)</option>
+
+            }
+            else
+            {
+                <option value="4">@Html.DisplayNameFor(model => model.FileUpDateTime)</option>
+
+            }
+        </select>
+    </div>
+    <div class=" form-group  m-0 p-0">
+        <label for="search" style="width:auto">關鍵字:&ensp;</label>
+        <input type="text" name="search" id="searchId" value="@ViewData["search"]">&ensp;
+    </div>
+    <div class=" form-group  m1-1 p-0 ">
+        <label class="m-0 p-0" for="RadioModelId">比對模式:</label>
+        <div class="form-control-sm">
+            @if (!(bool)ViewData["FuzzyOrNormal"])
+            {
+                @Html.RadioButton("RadioModelId", "fuzzyMatch", true, new { id = "RadioModelId2", @class = " p-0" })
+                @("包含關鍵字")<br>
+                @Html.RadioButton("RadioModelId", "keyMatch", false, new { id = "RadioModelId1", @class = "p-0" })
+                @("關鍵字相同")<br>
+            }
+            else
+            {
+                @Html.RadioButton("RadioModelId", "fuzzyMatch", false, new { id = "RadioModelId2", @class = " p-0" })
+                @("包含關鍵字")<br>
+                @Html.RadioButton("RadioModelId", "keyMatch", true, new { id = "RadioModelId1", @class = "p-0" })
+                @("關鍵字相同")<br>
+            }
+
+        </div>
+    </div>
+    <div class=" form-group  m-0 p-0  m1-2 ">
+        <input type="button" value="開始搜尋" onclick="SearchFunc('FileLoadInfo','@pathName')" />
+    </div>
+</form>
+<hr style="background-color:#808080">
+<div class="form-inline">
+    <input type="button" class="mb-1 mr-auto" value="檢視所有資料" onclick="location.href='@Url.Action("Index", "FileLoadInfo",new {  FuzzyOrNormal=(bool)ViewData["FuzzyOrNormal"],search = (string)ViewData["search"], searchSelect = (string)ViewData["searchSelect"],page=1})'" />
+    <input type="button" class="mb-1" value="整理伺服檔案" onclick="clearFile('@pathName')" />&ensp;
+    <input type="button" class="mb-1" value="檔案訂單建立" onclick="location.href='@Url.Action("Create", "FileLoadInfo")'" />
+</div>
+
+<table class="table tbl-list" style="border:2px  #808080 solid; width:100%" id="tableId" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr style="background-color: #c7c7c7;">
+            <th style="border:1px  #808080 solid;"></th>
+            <th style="border:1px  #808080 solid;"></th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 2, 'string')">
+                @Html.DisplayNameFor(model => model.MemberGmail)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 3, 'string')">
+                @Html.DisplayNameFor(model => model.MemberName)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 4, 'string')">
+                @Html.DisplayNameFor(model => model.FileTitle)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 5, 'string')">
+                @Html.DisplayNameFor(model => model.FileUrl)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 6, 'string')">
+                @Html.DisplayNameFor(model => model.FileUpDateTime)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <!--@Html.ActionLink("編輯", "Edit", new {  id=item.Id  })    -->
+                    <input type="button" value="編輯" onclick="location.href='@Url.Action("Edit", "FileLoadInfo", new {  id=item.Id  })'" />
+                </td>
+                <td>
+                    <!--@Html.ActionLink("刪除", "Delete", new {  id=item.Id})-->
+                    <input type="button" value="刪除" onclick="Delete('@item.MemberName', '@Url.Action("Delete", "FileLoadInfo", new {  id=item.Id  })')" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberGmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileUpDateTime)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+                <button class="page-link" onclick="location.href='@Url.Action("Index", "FileLoadInfo", new { search = ViewData["search"], searchSelect = ViewData["searchSelect"], page = ViewData["pagePrev"] })'">&lt;</button>
+            }
+        </li>
+
+        @for (int i = (int)ViewData["listConutStart"]; i <= (int)ViewData["listConutEnd"]; i++)
+        {
+            if (i == (int)ViewData["page"])
+            {
+                <li class="page-item">
+                    <label class="page-link" style="color:red" onclick="location.href='@Url.Action("Index", "FileLoadInfo", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <label class="page-link" style="color:black" onclick="location.href='@Url.Action("Index", "FileLoadInfo", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+                </li>
+            }
+        }
+        <li class="page-item">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+                <button class="page-link" onclick="location.href='@Url.Action("Index", "FileLoadInfo", new {search=ViewData["search"],searchSelect=ViewData["searchSelect"],   page= ViewData["pageNext"] })'">&gt;</button>
+            }
+        </li>
+    </ul>
+</nav>
+<script>
+    $(document).ready(function () {
+        $('#overlay').hide();
+    });
+
+    function OnProgRess(event, speedId = '#speed') {
+        var event = event || window.event;
+        var loaded = Math.floor(100 * (event.loaded / event.total));
+        $(speedId).html(loaded + "%").css("width", loaded + "%");
+    };
+    function clearFile(pathName, overlayId = '#overlay') {
+        $(overlayId).show();
+        xhr = $.ajaxSettings.xhr();
+        $.ajax({
+            type: 'POST',
+            url: '/' + pathName + '/FileLoadInfo/ClearFile',
+            async: true, //是否异步执行
+            xhr: function () {
+                if (OnProgRess && xhr.upload) {
+                    xhr.upload.addEventListener("progress", OnProgRess, false);
+                    return xhr;
+                }
+            },
+            success: function (result) {
+                alert(result);
+                $(overlayId).hide();
+            },
+            error: function (result) {
+                alert(result.responseText);
+                $(overlayId).hide();
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,214 @@
+﻿@model IEnumerable<edit20210325.Models.VideoPayModel>
+@{
+    var pathNameTxt = edit20210325.Function.ProjectSet.AdminName;
+}
+@{
+    ViewData["Title"] = "付費影片管理";
+    ViewData["ＰageCtrl"] = "3";
+}
+<style>
+    textarea:focus {
+        outline: none;
+    }
+</style>
+<style>
+    #overlay {
+        position: fixed;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        opacity: 0.5;
+        z-index: 10000;
+    }
+
+    .none {
+        display: none;
+    }
+</style>
+<div id="overlay" style="display:none;">
+    <div class="text-center">
+        <div class="progress" style="background-color:blue">
+            <div id="speed" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+        <p style="color:red;">請稍待 檔案上傳中...</p>
+    </div>
+</div>
+
+<h1>付費影片一覽</h1>
+<h4>查詢條件</h4>
+<form class="form-inline  " role="form">
+    <div class="form-group m-0 p-0 mr-auto">
+        <label for="searchSelect">搜尋欄位:&ensp;</label>
+        <select Name="searchSelect" id="searchSelectId" onchange="searchSelectFunc()">
+            @if ((string)ViewData["searchSelect"] == "1")
+            {
+            <option value="1" selected>@Html.DisplayNameFor(model => model.videoTitle)</option>
+            }
+            else
+            {
+            <option value="1">@Html.DisplayNameFor(model => model.videoTitle)</option>
+            }
+            @if ((string)ViewData["searchSelect"] == "2")
+            {
+            <option value="2" selected>@Html.DisplayNameFor(model => model.videoIntro)</option>
+            }
+            else
+            {
+            <option value="2">@Html.DisplayNameFor(model => model.videoIntro)</option>
+            }
+
+        </select>
+    </div>
+    <div class=" form-group  m-0 p-0">
+        <label for="search" style="width:auto">關鍵字:&ensp;</label>
+        <input type="text" name="search" id="searchId" value="@ViewData["search"]">&ensp;
+    </div>
+    <div class=" form-group  m1-1 p-0 ">
+        <label class="m-0 p-0" for="RadioModelId">比對模式:</label>
+        <div class="form-control-sm">
+            @if (!(bool)ViewData["FuzzyOrNormal"])
+            {
+            @Html.RadioButton("RadioModelId", "fuzzyMatch", true, new { id = "RadioModelId2", @class = " p-0" })
+            @("包含關鍵字")<br>
+            @Html.RadioButton("RadioModelId", "keyMatch", false, new { id = "RadioModelId1", @class = "p-0" })
+            @("關鍵字相同")<br>
+            }
+            else
+            {
+            @Html.RadioButton("RadioModelId", "fuzzyMatch", false, new { id = "RadioModelId2", @class = " p-0" })
+            @("包含關鍵字")<br>
+            @Html.RadioButton("RadioModelId", "keyMatch", true, new { id = "RadioModelId1", @class = "p-0" })
+            @("關鍵字相同")<br>
+            }
+
+        </div>
+    </div>
+    <div class=" form-group  m-0 p-0  m1-2 ">
+        <input type="button" value="開始搜尋" onclick="SearchFunc('VideoPay','@pathNameTxt')" />
+    </div>
+</form>
+<hr style="background-color:#808080">
+<div class="form-inline">
+    <input type="button" class="mb-1 mr-auto" value="檢視所有資料" onclick="location.href='@Url.Action("Index", "VideoPay", new { FuzzyOrNormal = (bool)ViewData["FuzzyOrNormal"], search = (string)ViewData["search"], searchSelect = (string)ViewData["searchSelect"], page = 1 })'" />
+    <input type="button" class="mb-1" value="付費影片上傳" onclick="location.href='@Url.Action("Create", "VideoPay")'" />
+    <input type="button" class="mb-1" value="清除-上傳失敗檔案" onclick="clearFile('@pathNameTxt')" />
+</div>
+
+@{
+    var listModel = Model.ToList();
+}
+
+@for (int i = 0; i < listModel.Count; i++)
+{
+<div class="card mb-3" style="max-width: 100%;">
+    <div class="row no-gutters ">
+        <div class="col-md-5">
+            <video id="@("videoCtrl"+i)" controlslist="nodownload" class="@("video_show")" preload="none" poster="@listModel[i].videoImageUrl" style="width:100%" controls="controls">
+                <source src="" id="@("VideSource"+i)">
+            </video>
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h2 class="card-title"> @Html.DisplayFor(modelItem => listModel[i].videoTitle)</h2>
+                <p class="card-text mb-5">
+                    @Html.DisplayNameFor(model => model.videoIntro)@(":")<br>
+                    @Html.DisplayFor(modelItem => listModel[i].videoIntro)<br>
+                </p>
+            </div>
+            <div class="footer mb-">
+                <form class="form-inline">
+                    <div class="form-group m-0 p-0 mr-auto">
+                        <input type="button" class="btn btn-primary" value="編輯" onclick="location.href='@Url.Action("Edit", "VideoPay", new {  id=listModel[i].Id  })'" />
+                    </div>
+                    <div class=" form-group  m-0 p-0">
+                        <input type="button" class="btn btn-primary" value="刪除" onclick="Delete('@listModel[i].videoTitle', '@Url.Action("Delete", "VideoPay", new {  id=listModel[i].Id  })')" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+}
+<script>
+    $(document).ready(function () {
+        $('#overlay').hide();
+        @{
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject((IEnumerable<edit20210325.Models.VideoPayModel>)Model);
+        }
+        var modelList = @Html.Raw(json);
+        var count = @listModel.Count;
+        for (var i = 0; i < count; i++){
+            var VideSource = '#VideSource' + i;
+            var videoCtrlId = 'videoCtrl' + i;
+            BlogVideoUrl(videoCtrlId,'.video_show', VideSource, modelList[i].videoUrl );
+        }
+
+    });
+</script>
+
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+            <button class="page-link" onclick="location.href='@Url.Action("Index", "VideoPay", new { search = ViewData["search"], searchSelect = ViewData["searchSelect"], page = ViewData["pagePrev"] })'">&lt;</button>
+            }
+        </li>
+
+        @for (int i = (int)ViewData["listConutStart"]; i <= (int)ViewData["listConutEnd"]; i++)
+        {
+            if (i == (int)ViewData["page"])
+            {
+        <li class="page-item">
+            <label class="page-link" style="color:red" onclick="location.href='@Url.Action("Index", "VideoPay", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+        </li>
+            }
+            else
+            {
+        <li class="page-item">
+            <label class="page-link" style="color:black" onclick="location.href='@Url.Action("Index", "VideoPay", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+        </li>
+            }
+        }
+        <li class="page-item">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+            <button class="page-link" onclick="location.href='@Url.Action("Index", "VideoPay", new {search=ViewData["search"],searchSelect=ViewData["searchSelect"],   page= ViewData["pageNext"] })'">&gt;</button>
+            }
+        </li>
+    </ul>
+</nav>
+<script>
+    function OnProgRess(event, speedId = '#speed') {
+        var event = event || window.event;
+        var loaded = Math.floor(100 * (event.loaded / event.total));
+        $(speedId).html(loaded + "%").css("width", loaded + "%");
+    };
+    function clearFile(pathName, overlayId = '#overlay') {
+        $(overlayId).show();
+        xhr = $.ajaxSettings.xhr();
+        $.ajax({
+            type: 'POST',
+            url: '/' + pathName + '/VideoPay/ClearFile',
+            async: true, //是否异步执行
+            xhr: function () {
+                if (OnProgRess && xhr.upload) {
+                    xhr.upload.addEventListener("progress", OnProgRess, false);
+                    return xhr;
+                }
+            },
+            success: function (result) {
+                alert(result);
+                $(overlayId).hide();
+            },
+            error: function (result) {
+                alert(result.responseText);
+                $(overlayId).hide();
+            }
+        });
+    }
+</script>

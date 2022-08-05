@@ -1,0 +1,29 @@
+﻿@model IEnumerable<edit20210325.Models.FileLoadInfoModel>
+@{
+    ViewData["Title"] = "下載專區";
+    ViewData["ＰageCtrl"] = "6";
+}
+
+<br>
+<div class="container" style="min-height:600px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <h1>下載專區</h1>
+    <hr />
+    <p>python主程式下載：&lt;<a href="https://www.python.org/downloads/">載點</a>&gt;</p>
+    @foreach(var item in Model)
+    {
+        <P>
+         @(item.FileTitle+":")&lt;<a href="@item.FileUrl">載點</a>&gt;
+        </P>
+    }
+</div>

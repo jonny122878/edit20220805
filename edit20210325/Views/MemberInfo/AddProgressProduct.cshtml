@@ -1,0 +1,48 @@
+﻿@model edit20210325.Models.MemberCashInModel
+
+@{
+    ViewData["Title"] = "新增訂製商品";
+    ViewData["ＰageCtrl"] = "6";
+
+}
+<br />
+<div class="container" style="min-height:600px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <h1>新增訂製商品</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddProgressProduct">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="MemberCashInRemarks" class="form-control" value="進度開始" />
+                <div class="form-group">
+                    <label asp-for="MemberCashInName" class="control-label"></label>
+                    <input asp-for="MemberCashInName" class="form-control" />
+                    <span asp-validation-for="MemberCashInName" class="text-danger"></span>
+                </div>
+               
+                <div class="form-group">
+                    <label  class="control-label">案件功能簡單說明</label><br>
+                    <textarea asp-for="MemberCashInSpace1" class="form-control" rows="6" cols="30" ></textarea>
+                    <span asp-validation-for="MemberCashInSpace1" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="建立" class="btn btn-primary onDivLeft" />
+
+                    <button  class="btn btn-primary onDivRight cancel" asp-action="MemberProgressProductList">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

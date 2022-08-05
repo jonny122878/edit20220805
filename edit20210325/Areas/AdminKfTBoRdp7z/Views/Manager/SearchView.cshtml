@@ -1,0 +1,136 @@
+﻿@model IEnumerable<edit20210325.Models.ManagerModel>
+@{
+    var pathName = edit20210325.Function.ProjectSet.AdminName;
+}
+@{
+    ViewData["Title"] = "管理員設定";
+    ViewData["ＰageCtrl"] = "4";
+}
+
+<h1>管理員設定</h1>
+<h4>查詢條件</h4>
+<form class="form-inline  " role="form">
+    <div class="form-group m-0 p-0 mr-auto">
+        <label for="searchSelect">搜尋欄位:&ensp;</label>
+        <select Name="searchSelect" id="searchSelectId" onchange="searchSelectFunc()">
+            @if ((string)ViewData["searchSelect"] == "1")
+            {
+                <option value="1" selected>@Html.DisplayNameFor(model => model.ManagerUser)</option>
+            }
+            else
+            {
+                <option value="1">@Html.DisplayNameFor(model => model.ManagerUser)</option>
+            }
+            @if ((string)ViewData["searchSelect"] == "2")
+            {
+                <option value="2" selected>@Html.DisplayNameFor(model => model.ManagerName)</option>
+            }
+            else
+            {
+                <option value="2">@Html.DisplayNameFor(model => model.ManagerName)</option>
+            }
+
+        </select>
+    </div>
+
+    <div class=" form-group  m-0 p-0">
+        <label for="search" style="width:auto">關鍵字:&ensp;</label>
+        <input type="text" name="search" id="searchId" value="@ViewData["search"]" />&ensp;
+    </div>
+    <div class=" form-group  m1-1 p-0 ">
+        <label class="m-0 p-0" for="RadioModelId">比對模式:</label>
+        <div class="form-control-sm">
+            @Html.RadioButton("RadioModelId", "fuzzyMatch", false, new { id = "RadioModelId2", @class = " p-0" })包含關鍵字<br>
+            @Html.RadioButton("RadioModelId", "keyMatch", true, new { id = "RadioModelId1", @class = "p-0" })關鍵字相同<br>
+        </div>
+    </div>
+    <div class=" form-group  m-0 p-0  m1-2 ">
+        <input type="button" value="開始搜尋" onclick="SearchFunc('Manager','@pathName')" />
+    </div>
+
+
+
+</form>
+
+<hr style="background-color:#808080">
+<div class="form-inline">
+    <input type="button" class="mb-1 mr-auto" value="檢視所有資料" onclick="location.href='@Url.Action("Index", "Manager",new {FuzzyOrNormal = true, search = (string)ViewData["search"], searchSelect = (string)ViewData["searchSelect"],page=1})'" />
+    <input type="button" class="mb-1" value="新增管理員" onclick="location.href='@Url.Action("Create", "Manager")'" />
+</div>
+
+<table class="table tbl-list" style="border:2px  #808080 solid; width:100%" id="tableId" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr style="background-color: #c7c7c7;">
+            <th style="border:1px  #808080 solid;"></th>
+            <th style="border:1px  #808080 solid;"></th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 2, 'string')">
+                @Html.DisplayNameFor(model => model.ManagerUser)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 3, 'string')">
+                @Html.DisplayNameFor(model => model.ManagerPassword)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 4, 'string')">
+                @Html.DisplayNameFor(model => model.ManagerName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="button" value="編輯" onclick="location.href='@Url.Action("Edit", "Manager", new {  id=item.Id  })'" />
+                </td>
+                <td>
+                    <input type="button" value="刪除" onclick="Delete('@item.ManagerName', '@Url.Action("Delete", "Manager", new {  id=item.Id  })')" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManagerUser)
+                </td>
+                <td>
+                    @Html.Raw("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ManagerName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+                <button class="page-link" onclick="location.href='@Url.Action("SearchView", "Manager", new { search = ViewData["search"], searchSelect = ViewData["searchSelect"], page = ViewData["pagePrev"] })'">&lt;</button>
+            }
+        </li>
+
+        @for (int i = (int)ViewData["listConutStart"]; i <= (int)ViewData["listConutEnd"]; i++)
+        {
+            if (i == (int)ViewData["page"])
+            {
+                <li class="page-item">
+                    <label class="page-link" style="color:red" onclick="location.href='@Url.Action("SearchView", "Manager", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <label class="page-link" style="color:black" onclick="location.href='@Url.Action("SearchView", "Manager", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+                </li>
+            }
+        }
+        <li class="page-item">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+                <button class="page-link" onclick="location.href='@Url.Action("SearchView", "Manager", new {search=ViewData["search"],searchSelect=ViewData["searchSelect"],   page= ViewData["pageNext"] })'">&gt;</button>
+            }
+        </li>
+    </ul>
+</nav>
+

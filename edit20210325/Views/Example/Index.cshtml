@@ -1,0 +1,150 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Description"] = "3個實際案例，一次了解客製程式設計的特色與功能。你需要的功能，程式設計都可滿足。如果你想知道產品銷售狀況，我們幫你大量分析資料，讓你迅速下決策；如果你沒有訂單系統，我們幫你打造迷你ERP；如果你的資料格式混亂，我們幫你整理資料，一次到位";
+    ViewData["Title"] = "實際案例｜程式設計公司｜早點下班";
+    ViewData["ＰageCtrl"] = "2";
+}
+<style>
+    body {
+        background-color:#F0F6F9;
+    }
+
+</style>
+
+
+<ol class="breadcrumb pt-4" style="background-color:#F0F6F9">
+  <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="font-weight-bold">首頁</a></li>
+  <li class="breadcrumb-item active">實際案例</li>
+</ol>
+
+<div class="container">
+   <div class="d-flex justify-content-center" id="example1">
+       <h1 class="font-weight-bold pb-3">實際案例</h1>
+    </div>
+</div>
+
+<div style="background-color:#FFFFFF" class="container">
+    <div class="row pb-3">
+        <h5 style="color:#FFFFFF" class="bg-success d-inline px-3 py-1">實際案例1</h5>
+        <div class="w-100 py-1"></div>
+        <div class="col-md-7">
+            <p class="fs-1">公司為水果代理商，想知道所有代理產品之銷售狀況。但公司ERP系統僅提供單一產品銷售狀況，
+                   無法提供產品整合比較資料。只能將所有資料一一下載，打開所有檔案，依序複製貼在同一資料頁，
+                   資料整理加上資料分析，至少需耗費2小時才能知道銷售狀況…
+            </p>
+        </div>
+        <div class="col-md-5">
+            <div class="container table-responsive-sm">
+                <table class="table table-hover table-primary text-nowrap table-sm">
+                       <thead>
+                         <tr>
+                           <th scope="col" class="text-nowrap">參考費用</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr class="table-light">
+                           <th scope="row">訂製費  <span class="text-primary" style="font-size:24px;"> NT 23,000</span></th>
+                         </tr>
+                         <tr class="table-light">
+                           <th scope="row">每月訂閱費  <span class="text-primary" style="font-size:24px;"> NT 350</span></th>
+                         </tr>
+                       </tbody>
+                </table>
+            </div>
+    </div>
+    <div class="w-100 py-1"></div>
+    <h5 class="px-3 font-weight-bold">大量分析資料&emsp;迅速下決策</h5>
+    </div>
+    <div class="col-md-7 embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+    </div>
+    <div class="w-100 py-3"></div>
+</div>
+
+<div class="w-100 py-5" id="example2"></div>
+
+<div style="background-color:#FFFFFF" class="container">
+    <div class="row pb-3">
+        <h5 style="color:#FFFFFF" class="bg-success d-inline px-3 py-1">實際案例2</h5>
+        <div class="w-100 py-1"></div>
+        <div class="col-md-7">
+            <p class="fs-1">公司為小型企業或個人工作室，販售商品或提供服務，沒有太多預算買訂單系統，
+                只能使用word/excel製作報價單，但格式常常調不好，製作一份報價單都要花上30分以上。
+                當客戶數量變多時，用excel管理客戶資料很不方便…
+            </p>
+        </div>
+        <div class="col-md-5">
+            <div class="container table-responsive-sm">
+                <table class="table table-hover table-primary text-nowrap table-sm">
+                       <thead>
+                         <tr>
+                           <th scope="col" class="text-nowrap">參考費用</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr class="table-light">
+                           <th scope="row">訂製費  <span class="text-primary" style="font-size:24px;"> NT 18,000</span></th>
+                         </tr>
+                         <tr class="table-light">
+                           <th scope="row">每月訂閱費  <span class="text-primary" style="font-size:24px;"> NT 330</span></th>
+                         </tr>
+                       </tbody>
+                </table>
+            </div>
+    </div>
+    <div class="w-100 py-1"></div>
+    <h5 class="px-3 font-weight-bold">迷你EPR&emsp;訂單客戶管理超輕鬆</h5>
+    </div>
+    <div class="col-md-7 embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+    </div>
+    <div class="w-100 py-3"></div>
+</div>
+
+<div class="w-100 py-5" id="example3"></div>
+
+<div style="background-color:#FFFFFF" class="container">
+    <div class="row pb-3">
+        <h5 style="color:#FFFFFF" class="bg-success d-inline px-3 py-1">實際案例3</h5>
+        <div class="w-100 py-1"></div>
+        <div class="col-md-7">
+            <p class="fs-1">公司ERP轉出的資料格式混亂，並不是我們想要的呈現格式。
+                須將每個檔案重複一樣的工作，刪除、新增、複製、貼上、移轉等，才能修改成需要的樣式。
+                大量重複的工作毫無效率，浪費時間…
+            </p>
+        </div>
+        <div class="col-md-5">
+            <div class="container table-responsive-sm">
+                <table class="table table-hover table-primary text-nowrap table-sm">
+                       <thead>
+                         <tr>
+                           <th scope="col" class="text-nowrap">參考費用</th>
+                         </tr>
+                       </thead>
+                       <tbody>
+                         <tr class="table-light">
+                           <th scope="row">訂製費  <span class="text-primary" style="font-size:24px;"> NT 5,000</span></th>
+                         </tr>
+                         <tr class="table-light">
+                           <th scope="row">每月訂閱費  <span class="text-primary" style="font-size:24px;"> NT 330</span></th>
+                         </tr>
+                       </tbody>
+                </table>
+            </div>
+    </div>
+    <div class="w-100 py-1"></div>
+    <h5 class="px-3 font-weight-bold">資料輕鬆整理&emsp;一次到位</h5>
+    </div>
+    <div class="col-md-7 embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+    </div>
+    <div class="w-100 py-3"></div>
+</div>
+
+
+<div class="mx-auto text-center py-5">
+    <p class="pt-3"><a asp-controller="ConsultNow" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5" role="btn">立即諮詢</a></p>
+</div>
+

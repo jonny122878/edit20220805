@@ -1,0 +1,163 @@
+﻿@model IEnumerable<edit20210325.Models.SalesOrderModel>
+
+@{
+    ViewData["Title"] = "已購買商品明細";
+    ViewData["ＰageCtrl"] = "6";
+    int[] CountsOrders = new int[Model.Count()];
+    var ConsumerOrderLogs = (IEnumerable<edit20210325.Models.ConsumerOrderLogModel>)ViewBag.ConsumerOrderLogs;
+}
+<script>
+    function delayTimeFunc(Guid, name, ProductUnitDays, ProductUnitPrice) {
+        var result = confirm("商品名稱：" + name + "\n是否使用期限延期：" + ProductUnitDays + "天\n酌收金幣："+ProductUnitPrice+"元")
+        if (result) {
+            //alert(Guid);
+            var formData = new FormData();
+            formData.append('id', Guid)
+            $.ajax({
+                type: 'POST',
+                url: '/MemberInfo/addDateTime',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    if (result == 'OK') {
+                        alert("延長完成!"); 
+                        
+                    }
+                    else {
+                        alert(result);
+                    }
+                    window.location.replace("/MemberInfo/MemberProductList")
+                },
+                error: function (result) {
+                    alert("網路錯誤!");
+                    
+                }
+            });
+        }
+    }
+    function addCountsFunc(Guid, name, ProductUnitPrice) {
+        var result = window.prompt("商品名稱："+name + '\n購買(次數)：', '');
+        var re = /^[0-9]+$/;
+        if (!re.test(result)) {
+            alert('只能輸入數字!');
+            return;
+        }
+        var counts = parseInt(result);
+        var totalCash = counts * ProductUnitPrice;
+        var result = confirm("商品名稱：" + name + "\n是否追加使用次數為：" + counts + "次\n酌收金幣：" + totalCash+"元");
+        if (result) {
+            var formData = new FormData();
+            formData.append('id', Guid)
+            formData.append('totalCash', totalCash)
+            
+            $.ajax({
+                type: 'POST',
+                url: '/MemberInfo/addCounts',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (result) {
+                    if (result == 'OK') {
+                        alert("追加使用次數完成!");
+                    }
+                    else {
+                        alert(result);
+                    }
+                    window.location.replace("/MemberInfo/MemberProductList")
+                },
+                error: function (result) {
+                    alert("網路錯誤!");
+
+                }
+            });
+        }
+    }
+</script>
+
+<br>
+<div class="container" style="min-height:1000px">
+    <div class="nav-scroller py-1 mb-2">
+        <nav class="nav d-flex justify-content-between">
+            <a class="p-2 text-muted" asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+            <a class="p-2 text-muted" asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品</a>
+            <a class="p-2 text-muted" asp-action="MemberProgressProductList" asp-controller="MemberInfo">已訂製商品</a>
+            <a class="p-2 text-muted" asp-action="SaveCash" asp-controller="MemberInfo">購買金幣</a>
+            <a class="p-2 text-muted" asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+            <a class="p-2 text-muted" asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+        </nav>
+    </div>
+    <br>
+    <h1>已購買商品</h1>
+    <hr />
+    
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="card bg-light mb-3" style="width:100%">
+                    <div class="card-header">
+                        @if (Model.ToList()[i].ProductCharge == "期間")
+                        {
+                            <div class="form-inline">
+                                <div class="mr-auto">
+                                    @("項目"+(i+1).ToString("0#"))
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary" onclick="delayTimeFunc('@Model.ToList()[i].Id', '@Model.ToList()[i].ProductName', '@Model.ToList()[i].ProductUnitDays', '@Model.ToList()[i].ProductUnitPrice')">延長期限</button>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            
+
+                            <div class="form-inline">
+                                <div class="mr-auto">
+                                    @("項目"+(i+1).ToString("0#"))
+                                </div>
+                                <div>
+                                    <button class="btn btn-dark" onclick="addCountsFunc('@Model.ToList()[i].Id','@Model.ToList()[i].ProductName','@Model.ToList()[i].ProductUnitPrice')">購買次數</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">@Model.ToList()[i].ProductName</h4>
+
+                        @if (Model.ToList()[i].ProductCharge == "期間")
+                        {
+
+                            <p class="card-text">
+                                <br>@Model.ToList()[i].ProductInfo
+                                <br>
+                                <br>@("到期日：")@Model.ToList()[i].ProductChangeDate.AddDays(Model.ToList()[i].ProductDays).ToString("yyyy-MM-dd hh:mm")
+                                @{ var unit = Model.ToList()[i].ProductUnitDays.ToString("#天"); }
+                                <br>@("計算方式：")@Model.ToList()[i].ProductUnitPrice@("元/" + unit)
+                            </p>
+
+                         }
+                         else
+                         {
+                             var ConsumerOrderLog = ConsumerOrderLogs.Where(c => c.SalesOrderId == Model.ToList()[i].Id.ToString()).ToList();
+                             if (ConsumerOrderLog.Count > 0)
+                             {
+                                 CountsOrders[i] = ConsumerOrderLog.Select(c => c.MemberCashInCounts).Aggregate((r, s) => r + s);
+                             }
+
+                            <p class="card-text">
+                                <br>@Model.ToList()[i].ProductInfo
+                                <br>
+                                <br>@("尚可使用次數：")@((CountsOrders[i]-Model.ToList()[i].ProductCounts)+"次")
+                                <br>@("計費方式："+ Model.ToList()[i].ProductUnitPrice + "元/1次")
+                                <br>
+                            </p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

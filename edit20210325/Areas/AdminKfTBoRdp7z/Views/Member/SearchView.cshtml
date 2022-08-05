@@ -1,0 +1,249 @@
+﻿@model IEnumerable<edit20210325.Models.MemberModel>
+@{
+    var pathName = edit20210325.Function.ProjectSet.AdminName;
+}
+@{
+    ViewData["Title"] = "會員基本資料管理";
+    ViewData["ＰageCtrl"] = "2";
+}
+
+<h1>會員基本資料管理</h1>
+<h4>查詢條件</h4>
+<form class="form-inline  " role="form">
+    <div class="form-group m-0 p-0 mr-auto">
+        <label for="searchSelect">搜尋欄位:&ensp;</label>
+        <select Name="searchSelect" id="searchSelectId" onchange="searchSelectFunc()">
+            @if ((string)ViewData["searchSelect"] == "1")
+            {
+                <option value="1" selected>@Html.DisplayNameFor(model => model.MemberGmail)</option>
+            }
+            else
+            {
+                <option value="1">@Html.DisplayNameFor(model => model.MemberGmail)</option>
+            }
+            @if ((string)ViewData["searchSelect"] == "2")
+            {
+                <option value="2" selected>@Html.DisplayNameFor(model => model.MemberName)</option>
+            }
+            else
+            {
+                <option value="2">@Html.DisplayNameFor(model => model.MemberName)</option>
+            }
+            @if ((string)ViewData["searchSelect"] == "3")
+            {
+                <option value="3" selected>@Html.DisplayNameFor(model => model.MemberIden)</option>
+
+            }
+            else
+            {
+                <option value="3">@Html.DisplayNameFor(model => model.MemberIden)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "4")
+            {
+                <option value="4" selected>@Html.DisplayNameFor(model => model.MemberPhone)</option>
+
+            }
+            else
+            {
+                <option value="4">@Html.DisplayNameFor(model => model.MemberPhone)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "5")
+            {
+                <option value="5" selected>@Html.DisplayNameFor(model => model.MemberCompany)</option>
+
+            }
+            else
+            {
+                <option value="5">@Html.DisplayNameFor(model => model.MemberCompany)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "6")
+            {
+                <option value="6" selected>@Html.DisplayNameFor(model => model.MemberRemarks1)</option>
+
+            }
+            else
+            {
+                <option value="6">@Html.DisplayNameFor(model => model.MemberRemarks1)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "7")
+            {
+                <option value="7" selected>@Html.DisplayNameFor(model => model.MemberRemarks2)</option>
+
+            }
+            else
+            {
+                <option value="7">@Html.DisplayNameFor(model => model.MemberRemarks2)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "10")
+            {
+                <option value="10" selected>@Html.DisplayNameFor(model => model.MemberCreateDate)</option>
+
+            }
+            else
+            {
+                <option value="10">@Html.DisplayNameFor(model => model.MemberCreateDate)</option>
+
+            }
+            @if ((string)ViewData["searchSelect"] == "11")
+            {
+                <option value="11" selected>@Html.DisplayNameFor(model => model.MemberChangeDate)</option>
+            }
+            else
+            {
+                <option value="11">@Html.DisplayNameFor(model => model.MemberChangeDate)</option>
+            }
+
+        </select>
+    </div>
+    <div class=" form-group  m-0 p-0">
+        <label for="search" style="width:auto">關鍵字:&ensp;</label>
+        <input type="text" name="search" id="searchId" value="@ViewData["search"]" />&ensp;
+    </div>
+    <div class=" form-group  m1-1 p-0 ">
+        <label class="m-0 p-0" for="RadioModelId">比對模式:</label>
+        <div class="form-control-sm">
+            @Html.RadioButton("RadioModelId", "fuzzyMatch", false, new { id = "RadioModelId2", @class = " p-0" })包含關鍵字<br>
+            @Html.RadioButton("RadioModelId", "keyMatch", true, new { id = "RadioModelId1", @class = "p-0" })關鍵字相同<br>
+        </div>
+    </div>
+    <div class=" form-group  m-0 p-0  m1-2 ">
+        <input type="button" value="開始搜尋" onclick="SearchFunc('Member','@pathName')" />
+    </div>
+</form>
+
+<hr style="background-color:#808080">
+<div class="form-inline">
+    <input type="button" class="mb-1 mr-auto" value="檢視所有資料" onclick="location.href='@Url.Action("Index", "Member",new {FuzzyOrNormal = true, search = (string)ViewData["search"], searchSelect = (string)ViewData["searchSelect"],page=1})'" />
+</div>
+
+<table class="table tbl-list" style="border:2px  #808080 solid; width:100%" id="tableId" cellpadding="0" cellspacing="0">
+    <thead>
+        <tr style="background-color: #c7c7c7;">
+            <th style="border:1px  #808080 solid;"></th>
+            <th style="border:1px  #808080 solid;"></th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 2, 'string')">
+                @Html.DisplayNameFor(model => model.MemberGmail)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 3, 'string')">
+                @Html.DisplayNameFor(model => model.MemberName)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 4, 'string')">
+                @Html.DisplayNameFor(model => model.MemberIden)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 5, 'string')">
+                @Html.DisplayNameFor(model => model.MemberPhone)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 6, 'string')">
+                @Html.DisplayNameFor(model => model.MemberCompany)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 7, 'string')">
+                @Html.DisplayNameFor(model => model.MemberRemarks1)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 8, 'string')">
+                @Html.DisplayNameFor(model => model.MemberRemarks2)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 9, 'string')">
+                @Html.DisplayNameFor(model => model.MemberCreateDate)
+            </th>
+            <th style="border: 1px #808080 solid;cursor: pointer;"
+                onclick="sortAble(this,'tableId', 10, 'string')">
+                @Html.DisplayNameFor(model => model.MemberChangeDate)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                <!--@Html.ActionLink("編輯", "Edit", new {  id=item.Id  })    -->
+                <input type="button" value="編輯" onclick="location.href='@Url.Action("Edit", "Member", new {  id=item.Id  })'" />
+            </td>
+            <td>
+                <!--@Html.ActionLink("刪除", "Delete", new {  id=item.Id})-->
+                <input type="button" value="刪除" onclick="Delete('@item.MemberName', '@Url.Action("Delete", "Member", new {  id=item.Id  })')" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberGmail)
+            </td>
+            <!--
+    <td>
+    @@Html.Raw("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")}
+    </td>
+    -->
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberName)
+            </td>
+            <td>
+                @(edit20210325.Function.DESFunction.DESDecrypt(item.MemberIden,edit20210325.Function.ProjectSet.PASSWORDKEY))
+            </td>
+            <td>
+                @(edit20210325.Function.DESFunction.DESDecrypt(item.MemberPhone, edit20210325.Function.ProjectSet.PASSWORDKEY))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberCompany)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberRemarks1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberRemarks2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberCreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberChangeDate)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item ">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+                <button class="page-link" onclick="location.href='@Url.Action("SearchView", "Member", new { search = ViewData["search"], searchSelect = ViewData["searchSelect"], page = ViewData["pagePrev"] })'">&lt;</button>
+            }
+        </li>
+
+        @for (int i = (int)ViewData["listConutStart"]; i <= (int)ViewData["listConutEnd"]; i++)
+        {
+            if (i == (int)ViewData["page"])
+            {
+                <li class="page-item">
+                    <label class="page-link" style="color:red" onclick="location.href='@Url.Action("SearchView", "Member", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <label class="page-link" style="color:black" onclick="location.href='@Url.Action("SearchView", "Member", new { search=ViewData["search"],searchSelect=ViewData["searchSelect"],  page=i })'">&ensp;[@i]&ensp;</label>
+                </li>
+            }
+        }
+        <li class="page-item">
+            @if ((int)ViewData["CountModel"] > 0)
+            {
+                <button class="page-link" onclick="location.href='@Url.Action("SearchView", "Member", new {search=ViewData["search"],searchSelect=ViewData["searchSelect"],   page= ViewData["pageNext"] })'">&gt;</button>
+            }
+        </li>
+    </ul>
+</nav>
+
