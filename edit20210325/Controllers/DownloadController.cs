@@ -133,13 +133,16 @@ namespace edit20210325.Controllers
             //batch壓縮
             ZipFile.CreateFromDirectory(directory, fileSendZip);
             Console.Write("");
-            var filename = "SendZip.zip";
-            string file = Path.Combine(pathSendZip, filename);
-            string contentType = "";
-            var provider = new FileExtensionContentTypeProvider();
-            provider.TryGetContentType(file, out contentType);
-            byte[] fileBytes = System.IO.File.ReadAllBytes(file);
-            return File(fileBytes, contentType, filename);
+
+            return Ok();
+            //下載動作改成再FTP
+            //var filename = "SendZip.zip";
+            //string file = Path.Combine(pathSendZip, filename);
+            //string contentType = "";
+            //var provider = new FileExtensionContentTypeProvider();
+            //provider.TryGetContentType(file, out contentType);
+            //byte[] fileBytes = System.IO.File.ReadAllBytes(file);
+            //return File(fileBytes, contentType, filename);
         }
 
         public IActionResult LoginByWinForm([FromQuery] LoginViewModel loginViewModel)
