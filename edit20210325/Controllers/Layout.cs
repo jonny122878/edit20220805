@@ -76,6 +76,12 @@ namespace edit20210325.Controllers
             return View();
         }
 
+        public IActionResult Sign_In()
+        {
+            return View();
+        }
+
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

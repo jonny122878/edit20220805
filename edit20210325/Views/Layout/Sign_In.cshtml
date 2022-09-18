@@ -1,0 +1,26 @@
+﻿    <link rel="stylesheet" href="~/css/login.css" />
+ 
+<div class="form-signin w-100 m-auto py-5">
+  <form>
+    <div class="text-center">
+        <img class="mb-4 mx" src="~/image/pureLogo.svg" alt="logo" width="65">
+    </div>
+    <h1 class="mb-3 fw-normal font-weight-bold text-center">會員登入</h1>
+
+    <div class="form-floating pb-3">
+        <label for="floatingInput">帳號</label>
+        <input type="email" class="form-control" id="floatingInput" placeholder="請輸入帳號">
+    </div>
+    <div class="form-floating pb-3">
+        <label for="floatingPassword">密碼</label>
+        <input type="password" class="form-control" id="floatingPassword" placeholder="請輸入密碼">
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">登入</button>
+
+    <a asp-controller="ConsultNow" asp-action="JudgeIndex" class="py-3 nav-link text-center font-weight-bold">還不是會員?&emsp;快來訂製專屬自已的程式!</a>
+  </form>
+</div>
+
+
+    

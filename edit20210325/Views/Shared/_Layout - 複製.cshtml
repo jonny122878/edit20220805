@@ -1,0 +1,389 @@
+﻿@*@第三方認證@
+*@
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="@ViewData["Description"]">
+    <meta name="author" content="topefficiencywork">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="canonical" href="https://www.topefficiencywork.tw">
+    <link rel="icon" href="~/favicon.ico" /> 
+    <link rel="shortcut icon" href="~/favicon.ico"/> 
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/offcanvas.css" />
+    <link rel="stylesheet" href="~/css/Font.css" />
+    <link rel="stylesheet" href="~/css/layout.css">
+    <link rel="stylesheet" href="~/css/editStyle.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="/css/jumbotron.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/pricing.css" rel="stylesheet">
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+</head>
+
+
+
+<body onload="ShowTime()" onselectstart="return false;" ondragstart="return false;" oncontextmenu="return false;" oncopy="return true;">
+    <style>
+        #overlay {
+            position: fixed;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            opacity: 0.5;
+            z-index: 10000;
+        }
+
+        .none {
+            display: none;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            $('#overlay').hide();
+            ShowTime();
+            //遮蔽鍵盤事件
+            document.onkeydown = function () {
+                var e = window.event || arguments[0];
+                //F12
+                if (e.keyCode == 123) {
+                    return false;
+                    //Ctrl+Shift+I
+                } else if ((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)) {
+                    return false;
+                    //Shift+F10
+                } else if ((e.shiftKey) && (e.keyCode == 121)) {
+                    return false;
+                    //Ctrl+U
+                } else if ((e.ctrlKey) && (e.keyCode == 85)) {
+                    return false;
+                }
+            };
+            //遮蔽滑鼠右鍵
+            document.oncontextmenu = function () {
+                return false;
+            }
+        }
+        @{ 
+
+            var url = edit20210325.Function.ProjectSet.GoogleUrl;
+            var UserId = edit20210325.Function.ProjectSet.clientId;
+         }
+        var login = function() {
+            var url = "https://accounts.google.com/o/oauth2/v2/auth?";
+            url += "scope=email profile&";
+            url += "redirect_uri=@(url)&";
+            url += "response_type=code&";
+            url += "client_id=@(UserId)&";
+            url += "approval_prompt=force&";
+            window.location.href = url;
+        }
+
+        var logout1 = function () {
+            document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://toperking.ddns.net/Home/Index";
+        }
+
+        var logout = function () {
+            $('#overlay').show();
+            var newWindow = window.open('https://www.google.com/accounts/Logout', 'Disconnect from Google', 'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none', '');
+            setTimeout(function () {
+                if (newWindow) newWindow.close();
+                window.location = "/home/Logout";
+                $('#overlay').hide();
+            }, 3000);
+        }
+    </script>
+
+
+    <div id="overlay" style="display:none;">
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+            </div>
+            <p style="color:white">登出中.......</p>
+        </div>
+    </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top nvabar-bg">
+            <a class="navbar-brand px-lg-4" asp-controller="Home" asp-action="JudgeIndex">
+                <img src="~/image/logo.svg" alt="Logo" width="100%" class="d-inline-block align-text-top">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="container-fluid">
+                <div style="width:50%;top:8px;" class="collapse navbar-collapse d-flex flex-column flex-lg-row flex-xl-row justify-content-lg-end p-3 p-lg-0 mt-5 mt-lg-0 mobileMenu onRight nvabar-bg"
+                     id="navbarSupportedContent">
+                   
+                    <ul class="navbar-nav align-self-stretch">
+                        @if ((string)ViewData["ＰageCtrl"] == "1")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3; font-size:18px;" class="nav-link font-weight-bold" asp-controller="ServiceCharge" asp-action="JudgeIndex">服務收費</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a style="color:#38A5E4; font-size:18px;" class="nav-link font-weight-bold" asp-controller="ServiceCharge" asp-action="JudgeIndex">服務收費</a>
+                            </li>
+                        }
+                        @if ((string)ViewData["ＰageCtrl"] == "2")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3; font-size:18px;" class="nav-link font-weight-bold" asp-controller="Example" asp-action="JudgeIndex">實際案例</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a style="color:#38A5E4; font-size:18px;" class="nav-link font-weight-bold" asp-controller="Example" asp-action="JudgeIndex">實際案例</a>
+                            </li>
+                        }
+                        @if ((string)ViewData["ＰageCtrl"] == "3")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3; font-size:18px;" class="nav-link font-weight-bold" asp-controller="ServiceProcess" asp-action="JudgeIndex">服務流程</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ">
+                                <a style="color:#38A5E4; font-size:18px;" class="nav-link font-weight-bold" asp-controller="ServiceProcess" asp-action="JudgeIndex">服務流程</a>
+                            </li>
+                        }
+                        @if ((string)ViewData["ＰageCtrl"] == "4")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3; font-size:18px;" class="nav-link font-weight-bold" asp-controller="FAQ" asp-action="JudgeIndex">常見問題</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a style="color:#38A5E4;font-size:18px;" class="nav-link font-weight-bold" asp-controller="FAQ" asp-action="JudgeIndex">常見問題</a>
+                            </li>
+                        }
+                         @if ((string)ViewData["ＰageCtrl"] == "5")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3;font-size:18px;" class="nav-link font-weight-bold" asp-controller="AboutUs" asp-action="JudgeIndex">關於我們</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a style="color:#38A5E4;font-size:18px;" class="nav-link font-weight-bold" asp-controller="AboutUs" asp-action="JudgeIndex">關於我們</a>
+                            </li>
+                        }
+
+
+                        @{
+                            var MemberName = Context.User.Claims.Count() == 0 ? "登入" : Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Name).Value;
+                            var pictureIcon = Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Uri) == null ?  null:Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Uri);
+                            var LoginState = Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Actor) ==null ? "false" : Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Actor).Value;
+                            }
+
+                        @if (!MemberName.Equals("登入") && LoginState.Equals("true"))
+                        {
+                    <li class="nav-item dropdown active">
+                        @if ((string)ViewData["ＰageCtrl"] == "6")
+                        {
+                            <a style="color:#2468B3;font-size:18px;" class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @if (pictureIcon != null)
+                                {
+                                    <img src="@pictureIcon.Value" style="width:20px;border-radius: 50%;">
+                                }
+                                @MemberName
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="color:#38A5E4;font-size:18px;" class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @if (pictureIcon != null)
+                                {
+                                    <img src="@pictureIcon.Value" style="width:20px;border-radius: 50%;">
+                                }
+                                @MemberName
+                            </a>
+                        }
+
+
+
+
+
+                    <div class="dropdown-menu">
+                        <a style="font-size:14px;" class="dropdown-item " asp-action="MemberDataBase" asp-controller="MemberInfo">會員基本資料</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-action="MemberProductList" asp-controller="MemberInfo">已購買商品明細</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-action="MemberProgressProductList" asp-controller="MemberInfo">訂製商品狀況</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-action="SaveCash" asp-controller="MemberInfo">金幣儲值</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-action="Question" asp-controller="MemberInfo">常見Q&A</a>
+                        <a style="font-size:14px;" class="dropdown-item " asp-action="DownLoadPage" asp-controller="MemberInfo">下載專區</a>
+                        <div class="dropdown-divider"></div>
+                        <a style="font-size:14px;" class="dropdown-item " onclick="logout()">登出</a>
+                    </div>
+                    </li>
+                        }
+                        else if (!MemberName.Equals("登入") && LoginState.Equals("false"))
+                        {
+                    <li class="nav-item dropdown ">
+
+                        @if ((string)ViewData["ＰageCtrl"] == "6")
+                        {
+                            <a style="color:#2468B3;font-size:18px;" class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @if (pictureIcon != null)
+                                {
+                                    <img src="@pictureIcon.Value" style="width:20px;border-radius: 50%;">
+                                }
+                                @MemberName
+                            </a>
+                        }
+                        else
+                        {
+                            <a style="color:#38A5E4;font-size:18px;" class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @if (pictureIcon != null)
+                                {
+                                    <img src="@pictureIcon.Value" style="width:20px;border-radius: 50%;">
+                                }
+                                @MemberName
+                            </a>
+                        }
+
+                        <div class="dropdown-menu">
+                            <a style="font-size:14px;" class="dropdown-item " asp-action="MemberRegister" asp-controller="MemberInfo">註冊會員帳號</a>
+                            <a style="font-size:14px;" class="dropdown-item " onclick="logout()">登出</a>
+                        </div>
+                    </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item ">
+                                <a style="color:#38A5E4;font-size:18px;" class="nav-link font-weight-bold" onclick="login()">
+                                    @if (pictureIcon != null)
+                                    {
+                                        <img src="@pictureIcon.Value" style="width: 20px; border-radius: 50%; ">
+                                    }
+                                    @MemberName
+                                </a>
+                            </li>
+                        }
+                        @{
+                            //@Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Name).Value
+                        }
+                        @if ((string)ViewData["ＰageCtrl"] == "7")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3; font-size:18px; border-style:solid; border-width:2px; border-color:#2DA0E3;" class="nav-link rounded-pill px-4 font-weight-bold" asp-controller="ConsultNow" asp-action="JudgeIndex">立即諮詢</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a style="color:#38A5E4;font-size:18px; border-style:solid; border-width:2px; border-color:#2DA0E3;" class="nav-link rounded-pill px-4 font-weight-bold" asp-controller="ConsultNow" asp-action="JudgeIndex">立即諮詢</a>
+                            </li>
+                        }
+                    
+                        @if ((string)ViewData["ＰageCtrl"] == "8")
+                        {
+                            <li class="nav-item active">
+                                <a style="color:#2468B3; font-size:18px;" class="nav-link font-weight-bold" asp-controller="Layout" asp-action="JudgeIndex"></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a style="color:#38A5E4;font-size:18px;" class="nav-link font-weight-bold" asp-controller="Layout" asp-action="JudgeIndex"></a>
+                            </li>
+                        }
+
+
+
+
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <!--   <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                         -->
+                    </form>
+                  </div>
+            </div>
+        </nav>
+        <div class="overlay"></div>
+    </header>
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <div class="jumbotron sticky-bottom">
+        <div class="mx-5">
+            <footer class="row">
+              <div class="col-12 mx-auto col-sm-12 col-md-12 col-lg-5">
+                  <h5><a href="/"><img src=~/image/logo.svg width="50%" alt="Logo" /></a></h5>
+                  <ul class="nav flex-column">
+                      <li class="nav-item mb-2"><a href="javascript:void(0);" class="nav-link p-0 text-muted">
+                          早點下班專精於資料處理，協助客戶將複雜大量的資料，迅速整理，一鍵完成。透過自動化程式–轉換資料格式、整理及分析大量資料、視覺化呈現，幫助企業高效經營</a>
+                      </li>
+                  </ul>
+                  <p class="text-muted">Copyright&copy; 早點下班. All rights reserved</p>
+              </div>
+                
+              <div class="col-6 col-sm col-md col-lg">
+                <h5 class="font-weight-bold my-3">關於公司</h5>
+                <ul class="nav flex-column">
+                  <li class="nav-item mb-2"><a asp-controller="AboutUs" asp-action="JudgeIndex" class="nav-link p-0 text-muted">關於我們</a></li>
+                  <li class="nav-item mb-2"><a asp-controller="FAQ" asp-action="JudgeIndex" class="nav-link p-0 text-muted">常見問題</a></li>
+                  <li class="nav-item mb-2"><a asp-controller="ServiceCharge" asp-action="JudgeIndex" class="nav-link p-0 text-muted">服務收費</a></li>
+                </ul>
+              </div>
+        
+              <div class="col-6 col-sm col-md col-lg">
+                <h5 class="font-weight-bold my-3">實際案例</h5>
+                <ul class="nav flex-column">
+                  <li class="nav-item mb-2"><a asp-controller="Example" asp-action="Index" asp-fragment="example1" class="nav-link p-0 text-muted">情境一</a></li>
+                  <li class="nav-item mb-2"><a asp-controller="Example" asp-action="Index" asp-fragment="example2" class="nav-link p-0 text-muted">情境二</a></li>
+                  <li class="nav-item mb-2"><a asp-controller="Example" asp-action="Index" asp-fragment="example3" class="nav-link p-0 text-muted">情境三</a></li>
+                </ul>
+              </div>
+
+              <div class="col-12 col-sm col-md col-lg">
+                <h5 class="font-weight-bold my-3">聯繫我們</h5>
+                <ul class="nav flex-column">
+                  <li class="nav-item mb-2"><a href="javascript:void(0);" class="nav-link p-0 text-muted">Email:service@@topefficiencywork.tw</a></li>
+                  <li class="nav-item mb-2"><a href="https://lin.ee/nDWUFNh" class="nav-link p-0 text-muted">LINE:搜尋@@topefficiencywork</a></li>
+                  <li class="nav-item mb-2"><a class="btn btn-success btn-lg" href="https://lin.ee/nDWUFNh" role="button">加入LINE好友</a></li>
+                </ul>
+              </div>
+            </footer>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/offcanvas.js" asp-append-version="true"></script>
+    <script src="~/js/function.js" asp-append-version="true"></script>
+    <script src="~/js/VideoFunc.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+
+
+</body>
+</html>

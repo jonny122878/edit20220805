@@ -76,6 +76,15 @@ namespace edit20210325.Controllers
             return chenkOut;
         }
 
+        public IActionResult Sign_In()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Sign_In(MemberModel memberModel)
+        {
+            return View();
+        }
         [HttpGet]
         public ActionResult MemberRegister()
         {
