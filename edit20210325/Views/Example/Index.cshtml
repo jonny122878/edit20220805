@@ -5,6 +5,9 @@
     ViewData["Description"] = "3個實際案例，一次了解客製程式設計的特色與功能。你需要的功能，程式設計都可滿足。如果你想知道產品銷售狀況，我們幫你大量分析資料，讓你迅速下決策；如果你沒有訂單系統，我們幫你打造迷你ERP；如果你的資料格式混亂，我們幫你整理資料，一次到位";
     ViewData["Title"] = "實際案例｜程式設計公司｜早點下班";
     ViewData["ＰageCtrl"] = "2";
+    ViewData["og_url"] = @"/Example/Index";
+    ViewData["og_site_name"] = "實際案例｜早點下班";
+
 }
 <style>
     body {
@@ -98,7 +101,11 @@
     <h5 class="px-3 font-weight-bold">迷你EPR&emsp;訂單客戶管理超輕鬆</h5>
     </div>
     <div class="col-md-7 embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+        <video controls="controls" class="embed-responsive-item" muted="muted">
+          <source src="~/video/example2.mp4" type="video/mp4" />
+        </video>
+@*        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
+*@       
     </div>
     <div class="w-100 py-3"></div>
 </div>
@@ -142,7 +149,7 @@
 
     <div class="col-md-7 embed-responsive embed-responsive-16by9">
         <video controls="controls" class="embed-responsive-item" muted="muted">
-          <source src="~/video/example1.mp4" type="video/mp4" />
+          <source src="~/video/example3.mp4" type="video/mp4" />
         </video>
 
 @*        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen></iframe>
