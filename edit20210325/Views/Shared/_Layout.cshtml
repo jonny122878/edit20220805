@@ -204,7 +204,6 @@
                             </li>
                         }
 
-
                         @{
                             var MemberName = Context.User.Claims.Count() == 0 ? "登入" : Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Name).Value;
                             var pictureIcon = Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Uri) == null ?  null:Context.User.Claims.FirstOrDefault(m => m.Type == System.Security.Claims.ClaimTypes.Uri);
@@ -285,7 +284,14 @@
                         else
                         {
                             <li class="nav-item ">
+
+@*                                //tip top navbar的第三方驗證登入鈕
                                 <a style="color:#38A5E4;font-size:18px;" class="nav-link font-weight-bold" onclick="login()">
+*@
+                                
+                                @*//登入鈕*@                                
+                                <a style="color:#38A5E4;font-size:18px;" class="nav-link font-weight-bold" asp-action="Sign_In" asp-controller="MemberInfo" >
+
                                     @if (pictureIcon != null)
                                     {
                                         <img src="@pictureIcon.Value" style="width: 20px; border-radius: 50%; ">
